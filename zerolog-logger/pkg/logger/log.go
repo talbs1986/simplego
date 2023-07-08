@@ -15,10 +15,17 @@ func (l *zerologLog) With(fields *simplego.LogFields) simplego.LogLine {
 	if fields == nil {
 		return l
 	}
+
+	newFields := l.fields
 	for k, v := range *fields {
-		l.fields[k] = v
+		newFields[k] = v
 	}
-	return l
+	newLine := &zerologLog{
+		parent: l.parent,
+		fields: newFields,
+		err:    l.err,
+	}
+	return newLine
 }
 func (l *zerologLog) WithErr(err error) simplego.LogLine {
 	l.err = &err

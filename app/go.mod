@@ -2,6 +2,10 @@ module github.com/talbs1986/simplego/app
 
 go 1.20
 
+replace github.com/talbs1986/simplego/logger => ../logger
+
+replace github.com/talbs1986/simplego/zerolog-logger => ../zerolog-logger
+
 require (
 	github.com/talbs1986/simplego/logger v0.0.0-20230708082847-b07a0b2a9530
 	github.com/talbs1986/simplego/zerolog-logger v0.0.0-20230708082847-b07a0b2a9530
