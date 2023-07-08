@@ -11,10 +11,10 @@ github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINE
 github.com/rs/xid v1.5.0/go.mod h1:trrq9SKmegXys3aeAKXMUTdJsYXVwGY3RLcfgqegfbg=
 github.com/rs/zerolog v1.29.2-0.20230618233044-9070d49a1a41 h1:PciNXTS8tKEutQkb2rm5eWLtgfmci/J81LkLvpYgCCg=
 github.com/rs/zerolog v1.29.2-0.20230618233044-9070d49a1a41/go.mod h1:/tk+P47gFdPXq4QYjvCmT5/Gsug2nagsFWBWhAiSi1w=
-github.com/talbs1986/simplego/logger v0.0.0-20230708042542-f482d4fe578d h1:MkeEgPKqAHFk/BaZJfqDsc6wO+f4VU0cAeN59uHHZOE=
-github.com/talbs1986/simplego/logger v0.0.0-20230708042542-f482d4fe578d/go.mod h1:wpgN0D7SV46MNiA7QwuEivXhP8wEIHPE3Gg59/tXqNE=
 github.com/talbs1986/simplego/logger v0.0.0-20230708082847-b07a0b2a9530 h1:RsUmsB2qGi/KXn9EF6zGfo8jzuhfngZWCw97lLrnqjI=
 github.com/talbs1986/simplego/logger v0.0.0-20230708082847-b07a0b2a9530/go.mod h1:wpgN0D7SV46MNiA7QwuEivXhP8wEIHPE3Gg59/tXqNE=
+github.com/talbs1986/simplego/zerolog-logger v0.0.0-20230708082847-b07a0b2a9530 h1:zfaOvcARixdcRDbF+plpB1Vf6Ky9QSRa++/ha7NH8cE=
+github.com/talbs1986/simplego/zerolog-logger v0.0.0-20230708082847-b07a0b2a9530/go.mod h1:8ZUrrIKCQy22jqqdxT3yGRCv660Dsx7jfvK6pZWbAfo=
 golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20210927094055-39ccf1dd6fa6/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=

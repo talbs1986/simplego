@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/rs/zerolog v1.29.2-0.20230618233044-9070d49a1a41
-	github.com/talbs1986/simplego/logger v0.0.0-20230708042542-f482d4fe578d
+	github.com/talbs1986/simplego/logger v0.0.0-20230708082847-b07a0b2a9530
 )
 
 require (

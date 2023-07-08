@@ -2,7 +2,7 @@ package logger
 
 type ILogger interface {
 	Get() ILogger
-	New() LogLine
+	Log() LogLine
 	With(fields *LogFields) LogLine
 }
 type LogFields map[string]interface{}
