@@ -9,5 +9,9 @@ build:
 tidy:
 	cd logger && go mod tidy
 
-.PHONY: all deps build tidy
+lint:
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	cd logger && golangci-lint run
+
+.PHONY: all deps build tidy lint
 

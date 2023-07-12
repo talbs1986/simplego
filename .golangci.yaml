@@ -1,0 +1,51 @@
+run:
+  timeout: 10m
+  skip-files:
+    - ".*_test.go"
+  skip-dirs:
+    - "proto/gen"
+    - "cmd"
+linters-settings:
+  depguard:
+    rules:
+      main:
+        files:
+          - "$all"
+        deny:
+          - pkg: "github.com/z"
+linters:
+  disable-all: true
+  enable:
+    - bodyclose
+    - depguard
+    - dogsled
+    - dupl
+    - errcheck
+    - exportloopref
+    - gochecknoinits
+    - goconst
+    - gocritic
+    - gocyclo
+    - gofmt
+    - goimports
+    - gomnd
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - misspell
+    - nakedret
+    - noctx
+    - nolintlint
+    - staticcheck
+    - stylecheck
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - whitespace
+
+issues:
+  exclude:
+    - alltime

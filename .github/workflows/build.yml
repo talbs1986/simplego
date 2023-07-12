@@ -46,9 +46,5 @@ jobs:
     needs: [prepare]
     steps:
       - uses: actions/checkout@v3
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
-        with:
-          version: latest
-
-
+      - name: Lint
+        run: make lint
