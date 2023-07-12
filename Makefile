@@ -9,6 +9,9 @@ build:
 tidy:
 	cd logger && go mod tidy
 
+tidy:
+	cd logger && go test -v ./... -count=1
+
 lint:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	cd logger && golangci-lint run
