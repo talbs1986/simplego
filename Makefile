@@ -1,20 +1,20 @@
 all: deps build tidy
 
 deps:
-	cd logger && go get -v -t -d ./...
+	cd ${DIR} && go get -v -t -d ./...
 
 build:
-	cd logger && go fmt ./...
+	cd $(DIR) && go fmt ./...
 
 tidy:
-	cd logger && go mod tidy
+	cd $(DIR) && go mod tidy
 
 tidy:
-	cd logger && go test -v ./... -count=1
+	cd $(DIR) && go test -v ./... -count=1
 
 lint:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-	cd logger && golangci-lint run
+	cd $(DIR) && golangci-lint run
 
 .PHONY: all deps build tidy lint
 
