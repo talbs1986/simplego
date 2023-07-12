@@ -7,6 +7,17 @@ The project is a side hobby , PR's are welcome but please follow the developers 
 The project is built as a mono repo multi module in order to enable quick plug and play of different interfaces for the personal usage.
 Each module will contain teskit module in order to encourage dependency injection while building application and allowing code testability.
 
+## contents
+### App
+The application module is a simple but the root of all modules.
+The module aims to reduce code around Start and Stop sequences and supports injection
+of other simplego modules
+
+### Logger
+The logger module is a simple but the root of all modules.
+The module aims to provide consistent usage of a logger and allowes plug and play of different implemenations
+aswell as providing a testable logger module
+
 ## roadmap
 The current forseeable roadmap for the project 
 - [x] logger interface
@@ -14,6 +25,10 @@ The current forseeable roadmap for the project
 - [ ] logger testkit
 - [x] application struct and start sequence
 - [x] application shutdown sequence
+- [ ] metrics interface
+- [ ] default metrics implementation - prometheus
+- [ ] metrics testkit
+- [ ] application start / stop sequences support metrics
 - [ ] default application start scenarios - job
 - [ ] server interface
 - [ ] default server implementation - TBD (chi probably)
