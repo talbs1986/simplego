@@ -35,16 +35,16 @@ func (l *zerologLog) Trace(msg string) {
 	l.checkErrAndLogMsg(l.parent.underyling.Trace(), l.err, msg)
 }
 func (l *zerologLog) Debug(msg string) {
-	l.checkErrAndLogMsg(l.parent.underyling.Trace(), l.err, msg)
+	l.checkErrAndLogMsg(l.parent.underyling.Debug(), l.err, msg)
 }
 func (l *zerologLog) Info(msg string) {
-	l.checkErrAndLogMsg(l.parent.underyling.Trace(), l.err, msg)
+	l.checkErrAndLogMsg(l.parent.underyling.Info(), l.err, msg)
 }
 func (l *zerologLog) Warn(msg string) {
-	l.checkErrAndLogMsg(l.parent.underyling.Trace(), l.err, msg)
+	l.checkErrAndLogMsg(l.parent.underyling.Warn(), l.err, msg)
 }
 func (l *zerologLog) Error(err error, msg string) {
-	l.checkErrAndLogMsg(l.parent.underyling.Trace(), &err, msg)
+	l.checkErrAndLogMsg(l.parent.underyling.Error(), &err, msg)
 }
 func (l *zerologLog) Fatal(err error, msg string) {
 	l.checkErrAndLogMsg(l.parent.underyling.Fatal(), &err, msg)
