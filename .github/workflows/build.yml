@@ -1,0 +1,55 @@
+name: Build generate push
+on: [push]
+jobs:
+  prepare:
+    name: Prepare env
+    if: "!startsWith(github.event.head_commit.message, '[AUTO]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version: "^1.20.0"
+      - name: "Cache build"
+        uses: actions/cache@v3
+        with:
+          key: ${{ github.ref }}-${{ runner.os }}-${{ hashFiles('**/go.sum') }}
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+      - name: Build
+        run: make build
+
+  unit-test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: [prepare]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+	  go-version: "^1.20.0"
+      - name: "Cache build"
+        uses: actions/cache@v3
+        with:
+          key: ${{ github.ref }}-${{ runner.os }}-${{ hashFiles('**/go.sum') }}
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+      - name: Run the tests
+        run: make test
+
+  lint:
+    name: Linting
+    runs-on: ubuntu-latest
+    needs: [prepare]
+    steps:
+      - uses: actions/checkout@v3
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+
+
