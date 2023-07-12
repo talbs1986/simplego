@@ -18,6 +18,7 @@ The logger module is a simple but the root of all modules.
 The module aims to provide consistent usage of a logger and allowes plug and play of different implemenations
 aswell as providing a testable logger module
 
+
 ## roadmap
 The current forseeable roadmap for the project 
 - [x] logger interface
@@ -45,5 +46,18 @@ The current forseeable roadmap for the project
 
 ## contribution
 
+### build
+For convinience i provided a Makefile that simplifies actions for specific module.
+An example of downloading module deps and building the logger module
+```
+make all DIR=logger
+```
+
+In the same format , is supported 
+- lint
+- build
+- tidy
+- test
+
 ### developer guidelines
-TBD
+PR's are welcomed , plz note im all alone at this, so patience please :)
