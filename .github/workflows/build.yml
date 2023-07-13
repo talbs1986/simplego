@@ -40,7 +40,7 @@ jobs:
     strategy:
       max-parallel: 5
       matrix:
-        dir: ${{needs.list-modules.outputs.dir != "" && fromJson(needs.list-modules.outputs.dir)}}
+        dir: ${{needs.list-modules.outputs.dir != '' && fromJson(needs.list-modules.outputs.dir)}}
     steps:
       - name: Start lib
         run: echo Building ${{ matrix.dir }}
