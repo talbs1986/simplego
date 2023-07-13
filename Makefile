@@ -9,7 +9,7 @@ build:
 tidy:
 	cd $(DIR) && go mod tidy
 
-tidy:
+test:
 	cd $(DIR) && go test -v ./... -count=1
 
 lint:
