@@ -21,26 +21,29 @@ aswell as providing a testable logger module
 
 ## roadmap
 The current forseeable roadmap for the project 
-- [x] logger interface
+- [x] logger module
 - [x] default logger implementation - zerolog
-- [ ] logger testkit
+- [ ] logger testkit module
 - [x] application struct and start sequence
 - [x] application shutdown sequence
-- [ ] metrics interface
+- [ ] configuration module
+- [ ] default configuration injector implementation - env vars
+- [ ] metrics module
 - [ ] default metrics implementation - prometheus
-- [ ] metrics testkit
+- [ ] metrics testkit module
 - [ ] application start / stop sequences support metrics
 - [ ] default application start scenarios - job
-- [ ] server interface
+- [ ] server module
 - [ ] default server implementation - TBD (chi probably)
-- [ ] server testkit
+- [ ] server testkit module
 - [ ] application start / stop scenarios - server
-- [ ] publisher / consumer interface
+- [ ] publisher / consumer modules
 - [ ] default publisher / consumer implemenatation - nats
-- [ ] publisher / consimer testkits
+- [ ] publisher / consimer testkit modules
 - [ ] application start / stop scenarios - publisher / consumer
+- [ ] cache module
 - [ ] default cache implementation - redis
-- [ ] cache testkit
+- [ ] cache testkit module
 - [ ] application start / stop sequences support cache
 
 
