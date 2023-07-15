@@ -13,7 +13,7 @@ type LogLine interface {
 	Trace(msg string)
 	Debug(msg string)
 	Info(msg string)
-	Warn(msg string)
+	Warn(err error, msg string)
 	Error(err error, msg string)
 	Fatal(err error, msg string)
 }

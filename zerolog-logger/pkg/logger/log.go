@@ -40,8 +40,8 @@ func (l *zerologLog) Debug(msg string) {
 func (l *zerologLog) Info(msg string) {
 	l.checkErrAndLogMsg(l.parent.underyling.Info(), l.err, msg)
 }
-func (l *zerologLog) Warn(msg string) {
-	l.checkErrAndLogMsg(l.parent.underyling.Warn(), l.err, msg)
+func (l *zerologLog) Warn(err error, msg string) {
+	l.checkErrAndLogMsg(l.parent.underyling.Warn(), &err, msg)
 }
 func (l *zerologLog) Error(err error, msg string) {
 	l.checkErrAndLogMsg(l.parent.underyling.Error(), &err, msg)
@@ -53,6 +53,7 @@ func (l *zerologLog) Fatal(err error, msg string) {
 func (l *zerologLog) checkErrAndLogMsg(underlyingEvent *zerolog.Event, err *error, msg string) {
 	underlyingEvent.Fields(l.fields)
 	if err != nil {
+		l.err = err
 		underlyingEvent = underlyingEvent.Err(*l.err)
 	}
 	underlyingEvent.Msg(msg)
