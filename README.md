@@ -1,7 +1,7 @@
 # simplego
 
 This repository aims to reduce boiler plate code to simplify writing 
-Golang applications.
+Golang applications. <br>
 The project is a side hobby , PR's are welcome but please follow the developers guideline below.
 
 
@@ -52,6 +52,10 @@ The current forseeable roadmap for the project
 - [ ] default cache implementation - redis
 - [ ] cache testkit module
 - [ ] application start / stop sequences support cache
+- [ ] trace module
+- [ ] default trace implementation - jager
+- [ ] cache trace module
+- [ ] application start / stop sequences support trace
 
 ## wishlist
 - [ ] dynamic config object update - vault impl
@@ -74,7 +78,7 @@ In the same format , is supported
 ### developer guidelines
 PR's are welcomed , plz note im all alone at this, so patience please :)
 
-*Issues:*
+**Issues:** <br>
 Found an issue while using this library ? please open an Issue with the details 
 1. Current library version
 2. Logs if existing
@@ -82,13 +86,13 @@ Found an issue while using this library ? please open an Issue with the details
 4. Actual behaviour
 
 
-*Feature Requests:*
+**Feature Requests:** <br>
 In case u find a feature is missing, please dont hesitate to open a FR (Feature Request), while keeping ine mind the following
 1. What is the main use case ?
 2. How is it missing from the current impl ?
 3. Please share a code snippet describing the recommended usage for the FR
 
-*Roadmap Features:*
+**Roadmap Features:** <br>
 When you want to submit a new feature out of the roadmap. please take the following into considuraiton
 1. Modules should be Tesatble
 2. Tests should cover most of the cases to give assurance & example of usage
