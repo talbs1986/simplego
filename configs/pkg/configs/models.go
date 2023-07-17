@@ -26,14 +26,14 @@ func NewConfigs[T interface{}](ctx context.Context, opts ...ConfigsOpt[T]) (ICon
 		opt(s)
 	}
 	if s.instance == nil {
-		if err := s.initalize(ctx); err != nil {
+		if err := s.initialize(ctx); err != nil {
 			return nil, fmt.Errorf("simplego configs: failed to initialize config instance, due to: %w", err)
 		}
 	}
 	return s, nil
 }
 
-func (s *configsImpl[T]) initalize(ctx context.Context) error {
+func (s *configsImpl[T]) initialize(ctx context.Context) error {
 	if len(s.parsers) < 1 {
 		return nil
 	}

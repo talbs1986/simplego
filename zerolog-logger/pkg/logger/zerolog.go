@@ -13,7 +13,7 @@ var (
 )
 
 type zerologImpl struct {
-	underyling zerolog.Logger
+	underlying zerolog.Logger
 }
 
 func NewSimpleZerolog(cfg *simplego.Config) (simplego.ILogger, error) {
@@ -34,10 +34,10 @@ func NewSimpleZerolog(cfg *simplego.Config) (simplego.ILogger, error) {
 	if cfg.Format == nil {
 		cfg.Format = &simplego.DefaultFormat
 	}
-	impl.underyling = zerolog.New(os.Stdout).With().Timestamp().Logger().Level(lvl)
+	impl.underlying = zerolog.New(os.Stdout).With().Timestamp().Logger().Level(lvl)
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	if *cfg.Format == simplego.LogFormatLogPrint {
-		impl.underyling = zerolog.Logger(impl.underyling).Output(zerolog.ConsoleWriter{Out: os.Stdout})
+		impl.underlying = zerolog.Logger(impl.underlying).Output(zerolog.ConsoleWriter{Out: os.Stdout})
 	}
 	instance = impl
 	return instance, nil

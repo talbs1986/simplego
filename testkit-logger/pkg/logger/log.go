@@ -39,19 +39,19 @@ func (l *TestkitLog) Trace(msg string) {
 	l.checkErrAndLogMsg(simplego.LogLevelTrace, l.Err, msg)
 }
 func (l *TestkitLog) Debug(msg string) {
-	l.checkErrAndLogMsg(simplego.LogLevelTrace, l.Err, msg)
+	l.checkErrAndLogMsg(simplego.LogLevelDebug, l.Err, msg)
 }
 func (l *TestkitLog) Info(msg string) {
-	l.checkErrAndLogMsg(simplego.LogLevelTrace, l.Err, msg)
+	l.checkErrAndLogMsg(simplego.LogLevelInfo, l.Err, msg)
 }
 func (l *TestkitLog) Warn(err error, msg string) {
-	l.checkErrAndLogMsg(simplego.LogLevelTrace, &err, msg)
+	l.checkErrAndLogMsg(simplego.LogLevelWarn, &err, msg)
 }
 func (l *TestkitLog) Error(err error, msg string) {
-	l.checkErrAndLogMsg(simplego.LogLevelTrace, &err, msg)
+	l.checkErrAndLogMsg(simplego.LogLevelError, &err, msg)
 }
 func (l *TestkitLog) Fatal(err error, msg string) {
-	l.checkErrAndLogMsg(simplego.LogLevelTrace, &err, msg)
+	l.checkErrAndLogMsg(simplego.LogLevelFatal, &err, msg)
 }
 
 func (l *TestkitLog) checkErrAndLogMsg(lvl simplego.LogLevel, err *error, msg string) {

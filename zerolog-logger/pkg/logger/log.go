@@ -32,22 +32,22 @@ func (l *zerologLog) WithErr(err error) simplego.LogLine {
 	return l
 }
 func (l *zerologLog) Trace(msg string) {
-	l.checkErrAndLogMsg(l.parent.underyling.Trace(), l.err, msg)
+	l.checkErrAndLogMsg(l.parent.underlying.Trace(), l.err, msg)
 }
 func (l *zerologLog) Debug(msg string) {
-	l.checkErrAndLogMsg(l.parent.underyling.Debug(), l.err, msg)
+	l.checkErrAndLogMsg(l.parent.underlying.Debug(), l.err, msg)
 }
 func (l *zerologLog) Info(msg string) {
-	l.checkErrAndLogMsg(l.parent.underyling.Info(), l.err, msg)
+	l.checkErrAndLogMsg(l.parent.underlying.Info(), l.err, msg)
 }
 func (l *zerologLog) Warn(err error, msg string) {
-	l.checkErrAndLogMsg(l.parent.underyling.Warn(), &err, msg)
+	l.checkErrAndLogMsg(l.parent.underlying.Warn(), &err, msg)
 }
 func (l *zerologLog) Error(err error, msg string) {
-	l.checkErrAndLogMsg(l.parent.underyling.Error(), &err, msg)
+	l.checkErrAndLogMsg(l.parent.underlying.Error(), &err, msg)
 }
 func (l *zerologLog) Fatal(err error, msg string) {
-	l.checkErrAndLogMsg(l.parent.underyling.Fatal(), &err, msg)
+	l.checkErrAndLogMsg(l.parent.underlying.Fatal(), &err, msg)
 }
 
 func (l *zerologLog) checkErrAndLogMsg(underlyingEvent *zerolog.Event, err *error, msg string) {

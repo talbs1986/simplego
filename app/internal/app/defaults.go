@@ -21,7 +21,8 @@ func DefaultLogger(cfg *logger.Config) logger.ILogger {
 }
 
 func DefaultConfigurations[T interface{}](ctx context.Context) configs.IConfigs[T] {
-	c, err := configs.NewConfigs[T](ctx, configs.WithConfigParsers([]configs.ConfigParser{goenvconfig.NewGoEnvConfigParser[T]()}))
+	parsers := []configs.ConfigParser{goenvconfig.NewGoEnvConfigParser[T]()}
+	c, err := configs.NewConfigs[T](ctx, configs.WithConfigParsers[T](parsers))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "simplego app: failed to initialize default configuration parser, due to: %s", err.Error())
 		os.Exit(1)
