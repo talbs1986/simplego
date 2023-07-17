@@ -1,8 +1,6 @@
 package logger
 
 import (
-	"errors"
-
 	simplego "github.com/talbs1986/simplego/logger/pkg/logger"
 )
 
@@ -13,24 +11,11 @@ var (
 type testkitImpl struct {
 }
 
-func NewSimpleTestKit(cfg *simplego.Config) (simplego.ILogger, error) {
+func NewSimpleTestKit() (simplego.ILogger, error) {
 	if instance != nil {
 		return instance, nil
 	}
-	if cfg == nil {
-		cfg = simplego.DefaultConfig
-	}
-	instance := &testkitImpl{}
-	if cfg.Level == nil {
-		cfg.Level = &simplego.DefaultLevel
-	}
-	if cfg.Format == nil {
-		cfg.Format = &simplego.DefaultFormat
-	}
-
-	if *cfg.Format == simplego.LogFormatLogPrint {
-		return nil, errors.New("unsupported feature") // TODO
-	}
+	instance = &testkitImpl{}
 	return instance, nil
 }
 

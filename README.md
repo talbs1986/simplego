@@ -23,7 +23,7 @@ aswell as providing a testable logger module
 The current forseeable roadmap for the project 
 - [x] logger module
 - [x] default logger implementation - zerolog
-- [ ] logger testkit module
+- [x] logger testkit module
 - [x] application struct and start sequence
 - [x] application shutdown sequence
 - [ ] configuration module

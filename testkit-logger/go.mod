@@ -4,4 +4,13 @@ go 1.20
 
 replace github.com/talbs1986/simplego/logger => ../logger
 
-require github.com/talbs1986/simplego/logger v0.0.0-20230708082847-b07a0b2a9530
+require (
+	github.com/stretchr/testify v1.8.4
+	github.com/talbs1986/simplego/logger v0.0.0-20230708082847-b07a0b2a9530
+)
+
+require (
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
+)

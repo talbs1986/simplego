@@ -8,7 +8,7 @@ import (
 
 type TestkitLog struct {
 	parent *testkitImpl
-	Time   time.Time
+	Time   *time.Time
 	Fields simplego.LogFields
 	Msg    string
 	Lvl    simplego.LogLevel
@@ -44,8 +44,8 @@ func (l *TestkitLog) Debug(msg string) {
 func (l *TestkitLog) Info(msg string) {
 	l.checkErrAndLogMsg(simplego.LogLevelTrace, l.Err, msg)
 }
-func (l *TestkitLog) Warn(msg string) {
-	l.checkErrAndLogMsg(simplego.LogLevelTrace, l.Err, msg)
+func (l *TestkitLog) Warn(err error, msg string) {
+	l.checkErrAndLogMsg(simplego.LogLevelTrace, &err, msg)
 }
 func (l *TestkitLog) Error(err error, msg string) {
 	l.checkErrAndLogMsg(simplego.LogLevelTrace, &err, msg)
@@ -55,7 +55,8 @@ func (l *TestkitLog) Fatal(err error, msg string) {
 }
 
 func (l *TestkitLog) checkErrAndLogMsg(lvl simplego.LogLevel, err *error, msg string) {
-	l.Time = time.Now()
+	now := time.Now()
+	l.Time = &now
 	l.Lvl = lvl
 	l.Msg = msg
 	l.Err = err

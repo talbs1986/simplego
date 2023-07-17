@@ -27,7 +27,7 @@ func TestWithShouldCreateNewLogLineWithFields(t *testing.T) {
 	assert.Equal(t, instance, actual.parent)
 }
 
-func TestWithShouldReturnSamleLineWhenNilFields(t *testing.T) {
+func TestWithShouldReturnSameLineWhenNilFields(t *testing.T) {
 	instance, _ := NewSimpleZerolog(logger.DefaultConfig)
 	logLine := &zerologLog{
 		parent: instance.(*zerologImpl),
