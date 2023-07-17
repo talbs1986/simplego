@@ -1,4 +1,4 @@
-module github.com/talbs1986/simplego/configs-goenv
+module github.com/talbs1986/simplego/goenv-configs
 
 go 1.20
 

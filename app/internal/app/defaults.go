@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	goenvconfig "github.com/talbs1986/simplego/configs-goenv/pkg/configs"
 	"github.com/talbs1986/simplego/configs/pkg/configs"
+	goenvconfig "github.com/talbs1986/simplego/goenv-configs/pkg/configs"
 	"github.com/talbs1986/simplego/logger/pkg/logger"
 	zerolog "github.com/talbs1986/simplego/zerolog-logger/pkg/logger"
 )

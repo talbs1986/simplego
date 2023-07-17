@@ -8,11 +8,11 @@ replace github.com/talbs1986/simplego/zerolog-logger => ../zerolog-logger
 
 replace github.com/talbs1986/simplego/configs => ../configs
 
-replace github.com/talbs1986/simplego/configs-goenv => ../configs-goenv
+replace github.com/talbs1986/simplego/goenv-configs => ../goenv-configs
 
 require (
 	github.com/talbs1986/simplego/configs v0.0.0-20230717062942-0331e9d59f6a
-	github.com/talbs1986/simplego/configs-goenv v0.0.0-20230717062942-0331e9d59f6a
+	github.com/talbs1986/simplego/goenv-configs v0.0.0-20230717062942-0331e9d59f6a
 	github.com/talbs1986/simplego/logger v0.0.0-20230717062942-0331e9d59f6a
 	github.com/talbs1986/simplego/zerolog-logger v0.0.0-20230717062942-0331e9d59f6a
 )
