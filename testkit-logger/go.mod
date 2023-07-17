@@ -6,7 +6,7 @@ replace github.com/talbs1986/simplego/logger => ../logger
 
 require (
 	github.com/stretchr/testify v1.8.4
-	github.com/talbs1986/simplego/logger v0.0.0-20230708082847-b07a0b2a9530
+	github.com/talbs1986/simplego/logger v0.0.0-20230717062942-0331e9d59f6a
 )
 
 require (

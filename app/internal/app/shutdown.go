@@ -13,7 +13,7 @@ type CloseableService interface {
 	Close(ctx context.Context) error
 }
 
-func (s *App) WaitForShutodwn() {
+func (s *App[T]) WaitForShutodwn() {
 	c := make(chan os.Signal, 1)
 	sigs := []os.Signal{syscall.SIGTERM, syscall.SIGKILL}
 	signal.Notify(c, sigs...)
@@ -21,11 +21,11 @@ func (s *App) WaitForShutodwn() {
 	<-c
 }
 
-func (s *App) Stop() {
+func (s *App[T]) Stop() {
 	s.slog.With(&logger.LogFields{"total_closeable_services": len(s.closeableServices)}).Info("simplego app: stopping services")
 	s.cancel()
 	for _, closeable := range s.closeableServices {
-		ctx, cancel := context.WithTimeout(s.ctx, s.stopTimeout)
+		ctx, cancel := context.WithTimeout(s.CTX, s.stopTimeout)
 		err := closeable.Close(ctx)
 		cancel()
 		if err != nil {

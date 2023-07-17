@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/talbs1986/simplego/configs/pkg/configs"
 	"github.com/talbs1986/simplego/logger/pkg/logger"
 	zerolog "github.com/talbs1986/simplego/zerolog-logger/pkg/logger"
 )
@@ -14,7 +15,7 @@ const (
 	DefaultServiceCloseTimeout = time.Second * 5
 )
 
-type AppOpt func(*App)
+type AppOpt[T interface{}] func(*App[T])
 
 type AppConfig struct {
 	Name                string
@@ -22,23 +23,24 @@ type AppConfig struct {
 	ServiceCloseTimeout time.Duration
 }
 
-type App struct {
+type App[T interface{}] struct {
 	Logger logger.ILogger
+	Config configs.IConfigs[T]
+	CTX    context.Context
 
-	ctx               context.Context
 	cancel            context.CancelFunc
 	stopTimeout       time.Duration
 	slog              logger.LogLine
 	closeableServices []CloseableService
 }
 
-func NewApp(cfg *AppConfig, opts ...AppOpt) *App {
+func NewApp[T interface{}](cfg *AppConfig, opts ...AppOpt[T]) *App[T] {
 	if len(cfg.Name) < 1 {
 		fmt.Fprintf(os.Stderr, "simplego app: failed to initialize app, service name is empty")
 		os.Exit(1)
 	}
 
-	s := &App{
+	s := &App[T]{
 		closeableServices: []CloseableService{},
 	}
 	for _, opt := range opts {
@@ -52,8 +54,8 @@ func NewApp(cfg *AppConfig, opts ...AppOpt) *App {
 		}
 		s.Logger = l
 	}
-	if s.ctx == nil {
-		s.ctx, s.cancel = context.WithCancel(context.Background())
+	if s.CTX == nil {
+		s.CTX, s.cancel = context.WithCancel(context.Background())
 	}
 	if s.stopTimeout <= 0 {
 		s.stopTimeout = DefaultServiceCloseTimeout

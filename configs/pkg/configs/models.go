@@ -1,33 +1,53 @@
 package configs
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+)
 
 type IConfigs[T interface{}] interface {
-	Get() (*T, error)
+	Get(context.Context) (*T, error)
 }
 
-type configImpl[T interface{}] struct {
+type ConfigParser[T interface{}] interface {
+	Parse(context.Context, *T) (*T, error)
+}
+
+type ConfigsOpt[T interface{}] func(*configsImpl[T])
+
+type configsImpl[T interface{}] struct {
 	instance *T
+	parsers  []ConfigParser[T]
 }
 
-type ConfigsOpt func(*configImpl)
-
-func NewConfigs[T interface{}](opts ...ConfigsOpt) (IConfigs[T], error) {
-	s := &configImpl[T]{}
+func NewConfigs[T interface{}](ctx context.Context, opts ...ConfigsOpt[T]) (IConfigs[T], error) {
+	s := &configsImpl[T]{}
 	for _, opt := range opts {
 		opt(s)
 	}
 	if s.instance == nil {
-		if err := s.initalize(); err != nil {
+		if err := s.initalize(ctx); err != nil {
 			return nil, fmt.Errorf("simplego configs: failed to initialize config instance, due to: %w", err)
 		}
 	}
 	return s, nil
 }
 
-func (s *configImpl[T]) initalize() error {
+func (s *configsImpl[T]) initalize(ctx context.Context) error {
+	if len(s.parsers) < 1 {
+		return nil
+	}
+	cfg := new(T)
+	var err error
+	for _, p := range s.parsers {
+		cfg, err = p.Parse(ctx, cfg)
+		if err != nil {
+			return err
+		}
+	}
+	s.instance = cfg
 	return nil
 }
-func (s *configImpl[T]) Get() (*T, error) {
+func (s *configsImpl[T]) Get(context.Context) (*T, error) {
 	return s.instance, nil
 }
