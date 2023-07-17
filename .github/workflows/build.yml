@@ -27,7 +27,7 @@ jobs:
         # List all repos that contain a go.mod file.
         run: |
           modules=$(for changed_dir in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo $(go list -f '{{.Module.Dir}}' "./$changed_dir")
+            echo $(cd ./$changed_dir && go list -f '{{.Module.Dir}}' "./...")
           done | sort -u)
           echo $modules
           dir=$(for module in $modules; do
