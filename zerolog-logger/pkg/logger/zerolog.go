@@ -37,7 +37,7 @@ func NewSimpleZerolog(cfg *simplego.Config) (simplego.ILogger, error) {
 	impl.underlying = zerolog.New(os.Stdout).With().Timestamp().Logger().Level(lvl)
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	if *cfg.Format == simplego.LogFormatLogPrint {
-		impl.underlying = zerolog.Logger(impl.underlying).Output(zerolog.ConsoleWriter{Out: os.Stdout})
+		impl.underlying = impl.underlying.Output(zerolog.ConsoleWriter{Out: os.Stdout})
 	}
 	instance = impl
 	return instance, nil
