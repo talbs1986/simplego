@@ -46,7 +46,7 @@ func NewApp[T interface{}](cfg *AppConfig, opts ...AppOpt[T]) *App[T] {
 		opt(s)
 	}
 	if s.Logger == nil {
-		s.Logger = DefaultLogger(cfg)
+		s.Logger = DefaultLogger(logger.DefaultConfig)
 	}
 	if s.CTX == nil {
 		s.CTX, s.cancel = context.WithCancel(context.Background())
