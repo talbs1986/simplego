@@ -116,6 +116,14 @@ In the same format , is supported
 - tidy
 - test
 
+## build all
+The following command will run the above `make all` on every module
+```
+make dev_all
+```
+
+
+
 ### developer guidelines
 PR's are welcomed , plz note im all alone at this, so patience please :)
 
