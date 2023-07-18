@@ -8,7 +8,6 @@ import (
 
 	"github.com/talbs1986/simplego/configs/pkg/configs"
 	"github.com/talbs1986/simplego/logger/pkg/logger"
-	zerolog "github.com/talbs1986/simplego/zerolog-logger/pkg/logger"
 )
 
 const (
@@ -47,18 +46,16 @@ func NewApp[T interface{}](cfg *AppConfig, opts ...AppOpt[T]) *App[T] {
 		opt(s)
 	}
 	if s.Logger == nil {
-		l, err := zerolog.NewSimpleZerolog(nil)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "simplego app: failed to initialize default logger, due to: %s", err.Error())
-			os.Exit(1)
-		}
-		s.Logger = l
+		s.Logger = DefaultLogger(cfg)
 	}
 	if s.CTX == nil {
 		s.CTX, s.cancel = context.WithCancel(context.Background())
 	}
 	if s.stopTimeout <= 0 {
 		s.stopTimeout = DefaultServiceCloseTimeout
+	}
+	if s.Config == nil {
+		s.Config = DefaultConfigurations[T](s.CTX)
 	}
 	s.slog = s.Logger.With(&logger.LogFields{"service": cfg.Name, "version": cfg.Version})
 	s.slog.Info("simplego app: initialized successfully :) , GL HF")

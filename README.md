@@ -14,6 +14,24 @@ The application module is a simple but the root of all modules.
 The module aims to reduce code around Start and Stop sequences and supports injection
 of other simplego modules
 
+**Start Sequence** <br>
+Job: TBD <br>
+Server: TBD <br>
+Cache: TBD <br>
+Metrics: TBD <br>
+Trace: TBD <br>
+Publisher: TBD <br>
+Consumer: TBD <br>
+
+**Stop Sequence** <br>
+Job: TBD <br>
+Server: TBD <br>
+Cache: TBD <br>
+Metrics: TBD <br>
+Trace: TBD <br>
+Publisher: TBD <br>
+Consumer: TBD <br>
+
 ### Logger
 The logger module is a simple asbstraction of a logger interface.
 The module aims to provide consistent usage of a logger and allowes plug and play of different implemenations
@@ -23,8 +41,26 @@ aswell as providing a testable logger module
 The configs module is a simple lib to provide app configuraiton object injection.
 The module aims to provide simple configuration objects usage in an app and allowes plug and play of different
 configuration parsers for more complex solutions.
-()
 
+### Metrics
+The configs module is a simple lib to provide app configuraiton object injection.
+The module aims to provide simple configuration objects usage in an app and allowes plug and play of different
+configuration parsers for more complex solutions.
+
+### Trace
+TBD
+
+### Cache
+TBD
+
+### Server
+TBD
+
+### Publisher
+TBD
+
+### Consumer
+TBD
 
 ## roadmap
 The current forseeable roadmap for the project 
@@ -33,6 +69,7 @@ The current forseeable roadmap for the project
 - [x] logger testkit module
 - [x] application struct and start sequence
 - [x] application shutdown sequence
+- [ ] application testkit
 - [x] configuration module
 - [x] default configuration injector implementation - go-envconfig
 - [ ] metrics module
@@ -54,11 +91,15 @@ The current forseeable roadmap for the project
 - [ ] application start / stop sequences support cache
 - [ ] trace module
 - [ ] default trace implementation - jager
-- [ ] cache trace module
+- [ ] trace testkit module
 - [ ] application start / stop sequences support trace
 
 ## wishlist
 - [ ] dynamic config object update - vault impl
+- [ ] server middlewares
+  - [ ] auth
+  - [ ] context
+  - [ ] twirp
 
 ## contribution
 
