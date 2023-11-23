@@ -48,9 +48,11 @@ func NewApp[T interface{}](cfg *AppConfig, opts ...AppOpt[T]) *App[T] {
 	if s.Logger == nil {
 		s.Logger = DefaultLogger(logger.DefaultConfig)
 	}
-	if s.CTX == nil {
-		s.CTX, s.cancel = context.WithCancel(context.Background())
+	ctx := s.CTX
+	if ctx == nil {
+		ctx = context.Background()
 	}
+	s.CTX, s.cancel = context.WithCancel(ctx)
 	if s.stopTimeout <= 0 {
 		s.stopTimeout = DefaultServiceCloseTimeout
 	}

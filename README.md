@@ -69,7 +69,6 @@ The current forseeable roadmap for the project
 - [x] logger testkit module
 - [x] application struct and start sequence
 - [x] application shutdown sequence
-- [ ] application testkit
 - [x] configuration module
 - [x] default configuration injector implementation - go-envconfig
 - [ ] metrics module
