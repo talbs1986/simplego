@@ -1,10 +1,6 @@
 run:
   timeout: 10m
-  skip-files:
-    - ".*_test.go"
-  skip-dirs:
-    - "proto/gen"
-    - "cmd"
+  
 linters-settings:
   depguard:
     rules:
@@ -13,6 +9,7 @@ linters-settings:
           - "$all"
         deny:
           - pkg: "github.com/z"
+
 linters:
   disable-all: true
   enable:
@@ -28,7 +25,7 @@ linters:
     - gocyclo
     - gofmt
     - goimports
-    - gomnd
+    - mnd
     - goprintffuncname
     - gosec
     - gosimple
@@ -49,3 +46,8 @@ linters:
 issues:
   exclude:
     - alltime
+  exclude-files:
+    - ".*_test.go"
+  exclude-dirs:
+    - "proto/gen"
+    - "cmd"

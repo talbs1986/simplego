@@ -1,7 +1,6 @@
 package logger
 
 type ILogger interface {
-	Get() ILogger
 	Log() LogLine
 	With(fields *LogFields) LogLine
 }
