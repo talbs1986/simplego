@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/rs/zerolog"
-	simplego "github.com/talbs1986/simplego/logger/pkg/logger"
+	simplego "github.com/talbs1986/simplego/app/pkg/logger"
 )
 
 var (

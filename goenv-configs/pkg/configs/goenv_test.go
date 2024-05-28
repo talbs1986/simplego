@@ -3,8 +3,9 @@ package configs
 import (
 	"context"
 
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 type mockConfig struct {
@@ -15,8 +16,7 @@ func Test_ParseConfigEnvVars(t *testing.T) {
 	instance, err := NewGoEnvConfigParser[mockConfig]()
 	assert.Nil(t, err)
 
-	var cfg mockConfig
-	actual, err := instance.Parse(context.Background(), &cfg)
+	actual, err := instance.Parse(context.Background())
 	assert.Nil(t, err)
 	assert.Equal(t, "imnotempty", actual.Something)
 }
@@ -25,8 +25,7 @@ func Test_ParseConfigEnvVarsDoesntParseEnvVarsTwice(t *testing.T) {
 	instance, err := NewGoEnvConfigParser[mockConfig]()
 	assert.Nil(t, err)
 
-	var cfg mockConfig
-	expected, _ := instance.Parse(context.Background(), &cfg)
-	actual, _ := instance.Parse(context.Background(), &cfg)
+	expected, _ := instance.Parse(context.Background())
+	actual, _ := instance.Parse(context.Background())
 	assert.Equal(t, expected, actual)
 }

@@ -5,19 +5,18 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/talbs1986/simplego/logger/pkg/logger"
-	simplego "github.com/talbs1986/simplego/logger/pkg/logger"
+	simplego "github.com/talbs1986/simplego/app/pkg/logger"
 )
 
 func TestWithShouldCreateNewLogLineWithFields(t *testing.T) {
-	instance, _ := NewSimpleZerolog(logger.DefaultConfig)
+	instance, _ := NewSimpleZerolog(simplego.DefaultConfig)
 	logLine := &zerologLog{
 		parent: instance.(*zerologImpl),
 		fields: simplego.LogFields{},
 		err:    nil,
 	}
 
-	expectedFields := logger.LogFields{
+	expectedFields := simplego.LogFields{
 		"stam": 2,
 	}
 	actual := logLine.With(&expectedFields).(*zerologLog)
@@ -28,7 +27,7 @@ func TestWithShouldCreateNewLogLineWithFields(t *testing.T) {
 }
 
 func TestWithShouldReturnSameLineWhenNilFields(t *testing.T) {
-	instance, _ := NewSimpleZerolog(logger.DefaultConfig)
+	instance, _ := NewSimpleZerolog(simplego.DefaultConfig)
 	logLine := &zerologLog{
 		parent: instance.(*zerologImpl),
 		fields: simplego.LogFields{},
@@ -51,7 +50,7 @@ func TestWithErr(t *testing.T) {
 	assert.Equal(t, actual.err, &expected)
 }
 func TestTrace(t *testing.T) {
-	instance, _ := NewSimpleZerolog(logger.DefaultConfig)
+	instance, _ := NewSimpleZerolog(simplego.DefaultConfig)
 	expectedErr := errors.New("new error")
 	expectedFields := simplego.LogFields{
 		"stam": 3,
@@ -67,7 +66,7 @@ func TestTrace(t *testing.T) {
 	assert.Equal(t, logLine.fields, expectedFields)
 }
 func TestDebug(t *testing.T) {
-	instance, _ := NewSimpleZerolog(logger.DefaultConfig)
+	instance, _ := NewSimpleZerolog(simplego.DefaultConfig)
 	expectedErr := errors.New("new error")
 	expectedFields := simplego.LogFields{
 		"stam": 3,
@@ -83,7 +82,7 @@ func TestDebug(t *testing.T) {
 	assert.Equal(t, logLine.fields, expectedFields)
 }
 func TestInfo(t *testing.T) {
-	instance, _ := NewSimpleZerolog(logger.DefaultConfig)
+	instance, _ := NewSimpleZerolog(simplego.DefaultConfig)
 	expectedErr := errors.New("new error")
 	expectedFields := simplego.LogFields{
 		"stam": 3,
@@ -100,7 +99,7 @@ func TestInfo(t *testing.T) {
 }
 
 func TestWarnWithErrShouldOverrideCurrentErr(t *testing.T) {
-	instance, _ := NewSimpleZerolog(logger.DefaultConfig)
+	instance, _ := NewSimpleZerolog(simplego.DefaultConfig)
 	expectedErr := errors.New("new error")
 	expectedFields := simplego.LogFields{
 		"stam": 3,
@@ -118,7 +117,7 @@ func TestWarnWithErrShouldOverrideCurrentErr(t *testing.T) {
 }
 
 func TestErrorWithErrShouldOverrideCurrentErr(t *testing.T) {
-	instance, _ := NewSimpleZerolog(logger.DefaultConfig)
+	instance, _ := NewSimpleZerolog(simplego.DefaultConfig)
 	expectedErr := errors.New("new error")
 	expectedFields := simplego.LogFields{
 		"stam": 3,

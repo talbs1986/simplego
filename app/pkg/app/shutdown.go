@@ -6,14 +6,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/talbs1986/simplego/logger/pkg/logger"
+	"github.com/talbs1986/simplego/app/pkg/logger"
 )
 
-type CloseableService interface {
-	Close(ctx context.Context) error
-}
-
-func (s *App[T]) WaitForShutodwn() {
+func (s *App) WaitForShutodwn() {
 	c := make(chan os.Signal, 1)
 	sigs := []os.Signal{syscall.SIGTERM, syscall.SIGKILL}
 	signal.Notify(c, sigs...)
@@ -21,7 +17,7 @@ func (s *App[T]) WaitForShutodwn() {
 	<-c
 }
 
-func (s *App[T]) Stop() {
+func (s *App) Stop() {
 	s.slog.With(&logger.LogFields{"total_closeable_services": len(s.closeableServices)}).Info("simplego app: stopping services")
 	s.cancel()
 	for _, closeable := range s.closeableServices {
