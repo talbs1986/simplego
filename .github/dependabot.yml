@@ -31,49 +31,63 @@ updates:
 
       
   - package-ecosystem: "gomod"
-    directory: "/app"    schedule:
+    directory: "/app"    
+    schedule:
       interval: "weekly"
   - package-ecosystem: "gomod"
-    directory: "/configs"    schedule:
+    directory: "/configs"    
+    schedule:
       interval: "weekly"
   - package-ecosystem: "gomod"
-    directory: "/goenv-configs"    schedule:
+    directory: "/goenv-configs"    
+    schedule:
       interval: "weekly"
   - package-ecosystem: "gomod"
-    directory: "/metrics"    schedule:
+    directory: "/metrics"    
+    schedule:
       interval: "weekly"
   - package-ecosystem: "gomod"
-    directory: "/prom-metrics"    schedule:
+    directory: "/prom-metrics"    
+    schedule:
       interval: "weekly"
   - package-ecosystem: "gomod"
-    directory: "/testkit-logger"    schedule:
+    directory: "/testkit-logger"    
+    schedule:
       interval: "weekly"
   - package-ecosystem: "gomod"
-    directory: "/zerolog-logger"    schedule:
+    directory: "/zerolog-logger"    
+    schedule:
       interval: "weekly"
 
 
 
   - package-ecosystem: "docker"
-    directory: "/app"    schedule:
+    directory: "/app"    
+    schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/configs"    schedule:
+    directory: "/configs"    
+    schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/goenv-configs"    schedule:
+    directory: "/goenv-configs"    
+    schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/metrics"    schedule:
+    directory: "/metrics"    
+    schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/prom-metrics"    schedule:
+    directory: "/prom-metrics"    
+    schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/testkit-logger"    schedule:
+    directory: "/testkit-logger"    
+    schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/zerolog-logger"    schedule:
+    directory: "/zerolog-logger"    
+    schedule:
       interval: "weekly"
 
 
