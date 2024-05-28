@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/talbs1986/simplego/logger/pkg/logger"
+	"github.com/talbs1986/simplego/app/pkg/logger"
 )
 
 func Test_LoggerGetShouldBeSingleton(t *testing.T) {

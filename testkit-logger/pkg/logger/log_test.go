@@ -6,8 +6,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/talbs1986/simplego/logger/pkg/logger"
-	simplego "github.com/talbs1986/simplego/logger/pkg/logger"
+	simplego "github.com/talbs1986/simplego/app/pkg/logger"
 )
 
 func TestWithShouldCreateNewLogLineWithFields(t *testing.T) {
@@ -18,7 +17,7 @@ func TestWithShouldCreateNewLogLineWithFields(t *testing.T) {
 		Err:    nil,
 	}
 
-	expectedFields := logger.LogFields{
+	expectedFields := simplego.LogFields{
 		"stam": 2,
 	}
 	actual := logLine.With(&expectedFields).(*TestkitLog)

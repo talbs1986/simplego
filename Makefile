@@ -24,5 +24,12 @@ dev_all:
 		fi \
 	done
 
+test_all:
+	for currDir in $(DIRS) ; do \
+		if [ "$$currDir" != "./" ] ; then \
+    		make test DIR=$$currDir ; \
+		fi \
+	done
+
 .PHONY: all deps build tidy lint dev_all
 
