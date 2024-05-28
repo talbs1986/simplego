@@ -76,7 +76,6 @@ func (s *promMetricsImpl) Push(ctx context.Context) error {
 	}
 	return s.pusher.Push(ctx)
 }
-
 func (s *promMetricsImpl) RegisterCounter(name string, description string, labels *[]string) error {
 	c := newPromCounter(name, description, labels)
 	return s.registerer.Register(c.underlying)
@@ -89,14 +88,12 @@ func (s *promMetricsImpl) RegisterGauge(name string, description string, labels 
 	g := newPromGauge(name, description, labels)
 	return s.registerer.Register(g.underlying)
 }
-
 func (s *promMetricsImpl) GetMetricsHandler(context.Context) (http.Handler, error) {
 	if s.middlewareBuilder == nil {
 		return nil, metrics.ErrMissingMetricsMiddlewareBuilder
 	}
 	return s.middlewareBuilder.BuildServerHandler()
 }
-
 func (s *promMetricsImpl) PushCollectedMetrics(ctx context.Context) error {
 	if s.pusher == nil {
 		return metrics.ErrMissingMetricsPusher
@@ -109,7 +106,6 @@ func (s *promMetricsImpl) GetCounter(name string) (metrics.ICounter, error) {
 		return nil, metrics.ErrMissingMetric
 	}
 	return counter, nil
-
 }
 func (s *promMetricsImpl) GetGauge(name string) (metrics.IGauge, error) {
 	gauge, exists := s.gauges[name]
@@ -117,7 +113,6 @@ func (s *promMetricsImpl) GetGauge(name string) (metrics.IGauge, error) {
 		return nil, metrics.ErrMissingMetric
 	}
 	return gauge, nil
-
 }
 func (s *promMetricsImpl) GetHistogram(name string) (metrics.IHistogram, error) {
 	histogram, exists := s.histograms[name]
@@ -125,5 +120,4 @@ func (s *promMetricsImpl) GetHistogram(name string) (metrics.IHistogram, error) 
 		return nil, metrics.ErrMissingMetric
 	}
 	return histogram, nil
-
 }
