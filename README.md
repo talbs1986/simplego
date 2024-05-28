@@ -36,16 +36,25 @@ Consumer: TBD <br>
 The logger module is a simple asbstraction of a logger interface.
 The module aims to provide consistent usage of a logger and allowes plug and play of different implemenations
 aswell as providing a testable logger module
+#### impls
+* [FMT](app/pkg/logger)
+* [Zerolog](zerolog-logger)
+* [TestKit](testkit-logger)
 
 ### Configs
 The configs module is a simple lib to provide app configuraiton object injection.
 The module aims to provide simple configuration objects usage in an app and allowes plug and play of different
 configuration parsers for more complex solutions.
+#### impls
+* [GoEnv](goenv-configs)
 
 ### Metrics
-The configs module is a simple lib to provide app configuraiton object injection.
-The module aims to provide simple configuration objects usage in an app and allowes plug and play of different
-configuration parsers for more complex solutions.
+The configs module is a simple lib to provide app metrics.
+The module aims to provide simple usage of pushing and metrics objects and allowing plug and play of different
+metric providers.
+#### impls
+* [Prometheus](prom-metrics)
+* [TestKit](testkit-metrics)
 
 ### Trace
 TBD
