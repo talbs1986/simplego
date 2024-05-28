@@ -8,9 +8,11 @@ import (
 )
 
 func Test_LoggerGetShouldBeSingleton(t *testing.T) {
-	instance, err := NewSimpleZerolog(logger.DefaultConfig)
+	expected, err := NewSimpleZerolog(logger.DefaultConfig)
 	assert.Nil(t, err)
-	assert.Equal(t, instance, instance.Get())
+	actual, err := NewSimpleZerolog(logger.DefaultConfig)
+	assert.Nil(t, err)
+	assert.Equal(t, actual, expected)
 }
 
 func Test_LoggerLogShouldCreateNewLogLine(t *testing.T) {

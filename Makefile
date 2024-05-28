@@ -1,6 +1,9 @@
 DIRS = $(sort $(dir $(wildcard ./*/)))
 all: deps build tidy
 
+dep: 
+	cd ${DIR} && go get -d ${MODULE}
+	
 deps:
 	cd ${DIR} && go get -v -t -d ./...
 
@@ -31,5 +34,5 @@ test_all:
 		fi \
 	done
 
-.PHONY: all deps build tidy lint dev_all
+.PHONY: all deps build tidy lint dev_all test_all dep
 

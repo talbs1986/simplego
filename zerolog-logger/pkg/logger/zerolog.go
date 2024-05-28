@@ -43,10 +43,6 @@ func NewSimpleZerolog(cfg *simplego.Config) (simplego.ILogger, error) {
 	return instance, nil
 }
 
-func (s *zerologImpl) Get() simplego.ILogger {
-	return instance
-}
-
 func (s *zerologImpl) Log() simplego.LogLine {
 	l := &zerologLog{
 		parent: s,

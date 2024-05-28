@@ -19,10 +19,6 @@ func NewSimpleTestKit() (simplego.ILogger, error) {
 	return instance, nil
 }
 
-func (s *testkitImpl) Get() simplego.ILogger {
-	return instance
-}
-
 func (s *testkitImpl) Log() simplego.LogLine {
 	l := &TestkitLog{
 		parent: s,

@@ -16,10 +16,6 @@ func NewFMTLogger(cfg *Config) ILogger {
 	return &fmtLogger{*cfg.Level}
 }
 
-func (s *fmtLogger) Get() ILogger {
-	return s
-}
-
 func (s *fmtLogger) Log() LogLine {
 	return &fmtLogLine{
 		lvl: s.lvl,
