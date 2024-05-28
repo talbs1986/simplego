@@ -6,7 +6,7 @@ replace github.com/talbs1986/simplego/metrics => ../metrics
 
 require (
 	github.com/prometheus/client_golang v1.17.0
-	github.com/talbs1986/simplego/metrics v0.0.0-20230717062942-0331e9d59f6a
+	github.com/talbs1986/simplego/metrics v0.0.0-20240528111019-aad0f97d2d90
 )
 
 require (

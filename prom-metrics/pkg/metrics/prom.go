@@ -53,3 +53,11 @@ func (s *promMetricsImpl) RegisterGauge(name string, description string, labels 
 	g := newPromGauge(name, description, labels)
 	return s.registerer.Register(g.underlying)
 }
+
+//TODO impl
+
+// GetMetricsHandler(context.Context) (http.Handler, error)
+// 	PushCollectedMetrics(context.Context) error
+// 	GetCounter(string) (ICounter, error)
+// 	GetGauge(string) (IGauge, error)
+// 	GetHistogram(string) (IHistogram, error)

@@ -27,12 +27,12 @@ func newPromCounter(name string, description string, labels *[]string) *promCoun
 }
 
 func (c *promCounter) IncBy(count float64, labels simplego.MetricLabels) error {
-	c.underlying.With(labels).Add(count)
+	c.underlying.With(prometheus.Labels(labels)).Add(count)
 	return nil
 }
 
 func (c *promCounter) Inc(labels simplego.MetricLabels) error {
-	c.underlying.With(labels).Inc()
+	c.underlying.With(prometheus.Labels(labels)).Inc()
 	return nil
 }
 
@@ -59,7 +59,7 @@ func newPromHistogram(name string, description string, buckets []float64, labels
 }
 
 func (c *promHistogram) Record(count float64, labels simplego.MetricLabels) error {
-	c.underlying.With(labels).Observe(count)
+	c.underlying.With(prometheus.Labels(labels)).Observe(count)
 	return nil
 }
 
@@ -85,14 +85,14 @@ func newPromGauge(name string, description string, labels *[]string) *promGauge 
 }
 
 func (c *promGauge) Set(count float64, labels simplego.MetricLabels) error {
-	c.underlying.With(labels).Set(count)
+	c.underlying.With(prometheus.Labels(labels)).Set(count)
 	return nil
 }
 func (c *promGauge) IncBy(count float64, labels simplego.MetricLabels) error {
-	c.underlying.With(labels).Add(count)
+	c.underlying.With(prometheus.Labels(labels)).Add(count)
 	return nil
 }
 func (c *promGauge) Inc(labels simplego.MetricLabels) error {
-	c.underlying.With(labels).Inc()
+	c.underlying.With(prometheus.Labels(labels)).Inc()
 	return nil
 }
