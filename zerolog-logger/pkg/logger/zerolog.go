@@ -16,6 +16,7 @@ type zerologImpl struct {
 	underlying zerolog.Logger
 }
 
+// NewSimpleZerolog creates a new zerolog logger service
 func NewSimpleZerolog(cfg *simplego.Config) (simplego.ILogger, error) {
 	if instance != nil {
 		return instance, nil
@@ -43,6 +44,7 @@ func NewSimpleZerolog(cfg *simplego.Config) (simplego.ILogger, error) {
 	return instance, nil
 }
 
+// Log creates a new log line
 func (s *zerologImpl) Log() simplego.LogLine {
 	l := &zerologLog{
 		parent: s,
@@ -50,6 +52,8 @@ func (s *zerologImpl) Log() simplego.LogLine {
 	}
 	return l
 }
+
+// With creates a new log line with the fields
 func (s *zerologImpl) With(fields *simplego.LogFields) simplego.LogLine {
 	l := &zerologLog{
 		parent: s,

@@ -9,6 +9,7 @@ import (
 	"github.com/talbs1986/simplego/app/pkg/logger"
 )
 
+// WaitForShutodwn wait for the app to shutdown by  syscall.SIGTERM, syscall.SIGKILL
 func (s *App) WaitForShutodwn() {
 	c := make(chan os.Signal, 1)
 	sigs := []os.Signal{syscall.SIGTERM, syscall.SIGKILL}
@@ -17,6 +18,7 @@ func (s *App) WaitForShutodwn() {
 	<-c
 }
 
+// Stop stops the application and the registered closeable services
 func (s *App) Stop() {
 	s.slog.With(&logger.LogFields{"total_closeable_services": len(s.closeableServices)}).Info("simplego app: stopping services")
 	s.cancel()

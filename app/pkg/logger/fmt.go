@@ -5,22 +5,47 @@ import (
 	"os"
 )
 
+var (
+	// DefaultLevel defines the default log level
+	DefaultLevel LogLevel = LogLevelDebug
+	// DefaultFormat defines the default log format
+	DefaultFormat LogFormat = LogFormatJSON
+	// DefaultConfig defines the default log config
+	DefaultConfig *Config = &Config{
+		Level:  &DefaultLevel,
+		Format: &DefaultFormat,
+	}
+)
+
+// Config defines the configuration object of the FMT logger
+type Config struct {
+	Level  *LogLevel
+	Format *LogFormat
+}
+
 type fmtLogger struct {
 	lvl LogLevel
 }
 
+// NewFMTLogger creates a new logger implemented by FMT
 func NewFMTLogger(cfg *Config) ILogger {
+	if cfg == nil {
+		cfg = DefaultConfig
+	}
 	if cfg.Level == nil {
 		cfg.Level = &DefaultLevel
 	}
 	return &fmtLogger{*cfg.Level}
 }
 
+// Log creates a new log line
 func (s *fmtLogger) Log() LogLine {
 	return &fmtLogLine{
 		lvl: s.lvl,
 	}
 }
+
+// With creates a new log line with the fields
 func (s *fmtLogger) With(fields *LogFields) LogLine {
 	return s.Log().With(fields)
 }
@@ -31,6 +56,7 @@ type fmtLogLine struct {
 	err    error
 }
 
+// With appends log fields to the current log line
 func (l *fmtLogLine) With(fields *LogFields) LogLine {
 	if fields == nil {
 		return l
@@ -43,11 +69,14 @@ func (l *fmtLogLine) With(fields *LogFields) LogLine {
 	}
 	return l
 }
+
+// WithErr appends an error to the log line
 func (l *fmtLogLine) WithErr(err error) LogLine {
 	l.err = err
 	return l
 }
 
+// Trace writes a trace log line
 func (l *fmtLogLine) Trace(msg string) {
 	if l.skipLvl(LogLevelTrace) {
 		return
@@ -55,6 +84,8 @@ func (l *fmtLogLine) Trace(msg string) {
 	imsg := fmt.Sprintf("[Trace] {%v}: %s", l.fields, msg)
 	fmt.Fprintln(os.Stdout, imsg)
 }
+
+// //Debug writes a debug log line
 func (l *fmtLogLine) Debug(msg string) {
 	if l.skipLvl(LogLevelDebug) {
 		return
@@ -62,6 +93,8 @@ func (l *fmtLogLine) Debug(msg string) {
 	imsg := fmt.Sprintf("[Debug] {%v}: %s", l.fields, msg)
 	fmt.Fprintln(os.Stdout, imsg)
 }
+
+// Info writes an info log line
 func (l *fmtLogLine) Info(msg string) {
 	if l.skipLvl(LogLevelInfo) {
 		return
@@ -69,6 +102,8 @@ func (l *fmtLogLine) Info(msg string) {
 	imsg := fmt.Sprintf("[Info] {%v}: %s", l.fields, msg)
 	fmt.Fprintln(os.Stdout, imsg)
 }
+
+// Warn writes a warning log line
 func (l *fmtLogLine) Warn(err error, msg string) {
 	if l.skipLvl(LogLevelWarn) {
 		return
@@ -80,6 +115,8 @@ func (l *fmtLogLine) Warn(err error, msg string) {
 	imsg := fmt.Sprintf("[Warn] {%v}: %s, due to: %s", l.fields, msg, actualErr)
 	fmt.Fprintln(os.Stdout, imsg)
 }
+
+// Error writes an error log line
 func (l *fmtLogLine) Error(err error, msg string) {
 	if l.skipLvl(LogLevelError) {
 		return
@@ -91,6 +128,8 @@ func (l *fmtLogLine) Error(err error, msg string) {
 	imsg := fmt.Sprintf("[Error] {%v}: %s, due to: %s", l.fields, msg, actualErr)
 	fmt.Fprintln(os.Stderr, imsg)
 }
+
+// Fatal writes a fatal log line
 func (l *fmtLogLine) Fatal(err error, msg string) {
 	var actualErr = err
 	if l.err != nil {

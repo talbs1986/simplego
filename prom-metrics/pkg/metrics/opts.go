@@ -1,27 +1,39 @@
 package metrics
 
-import "github.com/talbs1986/simplego/metrics/pkg/metrics"
+import (
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	simplego "github.com/talbs1986/simplego/metrics/pkg/metrics"
+)
 
-func WithCounters(o map[string]metrics.ICounter) PromMetricsOpt {
+// WithDefaultPusher creates a new prometheus gateway pusher
+func WithDefaultPusher(host string, serviceName string) PromMetricsOpt {
 	return func(s *promMetricsImpl) {
-		s.counters = o
+		s.pusher = newPusher(s.logger, host, serviceName)
 	}
 }
 
-func WithHistograms(o map[string]metrics.IHistogram) PromMetricsOpt {
+// WithDefaultPusher creates a new prometheus http handler
+func WithDefaultMetricsMiddleware() PromMetricsOpt {
 	return func(s *promMetricsImpl) {
-		s.histograms = o
+		s.metricsHTTPHandler = promhttp.Handler()
 	}
 }
 
-func WithGauges(o map[string]metrics.IGauge) PromMetricsOpt {
-	return func(s *promMetricsImpl) {
-		s.gauges = o
-	}
-}
-
-func WithPusher(p metrics.MetricsPusher) PromMetricsOpt {
+// WithPusher sets the metrics pusher
+func WithPusher(p simplego.MetricsPusher) PromMetricsOpt {
 	return func(s *promMetricsImpl) {
 		s.pusher = p
+	}
+}
+
+// WithHTTPMetricsHandler sets the http metrics handle builder
+func WithHTTPMetricsHandler(b simplego.MetricsMiddlewareBuilder) PromMetricsOpt {
+	return func(s *promMetricsImpl) {
+		h, err := b.BuildServerHandler()
+		if err != nil {
+			s.logger.Log().Fatal(err, "simplego metrics: failed to build metrics server handler")
+			return
+		}
+		s.metricsHTTPHandler = h
 	}
 }

@@ -11,6 +11,7 @@ type zerologLog struct {
 	err    *error
 }
 
+// With creates a new log line and appends the fields
 func (l *zerologLog) With(fields *simplego.LogFields) simplego.LogLine {
 	if fields == nil {
 		return l
@@ -27,6 +28,8 @@ func (l *zerologLog) With(fields *simplego.LogFields) simplego.LogLine {
 	}
 	return newLine
 }
+
+// WithErr appends an error to the log line
 func (l *zerologLog) WithErr(err error) simplego.LogLine {
 	l.err = &err
 	return l

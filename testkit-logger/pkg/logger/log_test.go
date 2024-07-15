@@ -10,9 +10,9 @@ import (
 )
 
 func TestWithShouldCreateNewLogLineWithFields(t *testing.T) {
-	instance, _ := NewSimpleTestKit()
+	instance, _ := NewLoggerTestkit()
 	logLine := &TestkitLog{
-		parent: instance.(*testkitImpl),
+		parent: instance.(*TestkitLogger),
 		Fields: simplego.LogFields{},
 		Err:    nil,
 	}
@@ -29,9 +29,9 @@ func TestWithShouldCreateNewLogLineWithFields(t *testing.T) {
 }
 
 func TestWithShouldReturnSameLineWhenNilFields(t *testing.T) {
-	instance, _ := NewSimpleTestKit()
+	instance, _ := NewLoggerTestkit()
 	logLine := &TestkitLog{
-		parent: instance.(*testkitImpl),
+		parent: instance.(*TestkitLogger),
 		Fields: simplego.LogFields{},
 		Err:    nil,
 	}
@@ -52,13 +52,13 @@ func TestWithErr(t *testing.T) {
 	assert.Equal(t, actual.Err, &expected)
 }
 func TestTrace(t *testing.T) {
-	instance, _ := NewSimpleTestKit()
+	instance, _ := NewLoggerTestkit()
 	expectedErr := errors.New("new error")
 	expectedFields := simplego.LogFields{
 		"stam": 3,
 	}
 	logLine := &TestkitLog{
-		parent: instance.(*testkitImpl),
+		parent: instance.(*TestkitLogger),
 		Fields: expectedFields,
 		Err:    &expectedErr,
 	}
@@ -72,13 +72,13 @@ func TestTrace(t *testing.T) {
 	assert.Equal(t, logLine.Fields, expectedFields)
 }
 func TestDebug(t *testing.T) {
-	instance, _ := NewSimpleTestKit()
+	instance, _ := NewLoggerTestkit()
 	expectedErr := errors.New("new error")
 	expectedFields := simplego.LogFields{
 		"stam": 3,
 	}
 	logLine := &TestkitLog{
-		parent: instance.(*testkitImpl),
+		parent: instance.(*TestkitLogger),
 		Fields: expectedFields,
 		Err:    &expectedErr,
 	}
@@ -92,13 +92,13 @@ func TestDebug(t *testing.T) {
 	assert.Equal(t, logLine.Fields, expectedFields)
 }
 func TestInfo(t *testing.T) {
-	instance, _ := NewSimpleTestKit()
+	instance, _ := NewLoggerTestkit()
 	expectedErr := errors.New("new error")
 	expectedFields := simplego.LogFields{
 		"stam": 3,
 	}
 	logLine := &TestkitLog{
-		parent: instance.(*testkitImpl),
+		parent: instance.(*TestkitLogger),
 		Fields: expectedFields,
 		Err:    &expectedErr,
 	}
@@ -113,14 +113,14 @@ func TestInfo(t *testing.T) {
 }
 
 func TestWarnWithErrShouldOverrideCurrentErr(t *testing.T) {
-	instance, _ := NewSimpleTestKit()
+	instance, _ := NewLoggerTestkit()
 	expectedErr := errors.New("new error")
 	expectedFields := simplego.LogFields{
 		"stam": 3,
 	}
 	someErr := errors.New("some error")
 	logLine := &TestkitLog{
-		parent: instance.(*testkitImpl),
+		parent: instance.(*TestkitLogger),
 		Fields: expectedFields,
 		Err:    &someErr,
 	}
@@ -135,14 +135,14 @@ func TestWarnWithErrShouldOverrideCurrentErr(t *testing.T) {
 }
 
 func TestErrorWithErrShouldOverrideCurrentErr(t *testing.T) {
-	instance, _ := NewSimpleTestKit()
+	instance, _ := NewLoggerTestkit()
 	expectedErr := errors.New("new error")
 	expectedFields := simplego.LogFields{
 		"stam": 3,
 	}
 	someErr := errors.New("some error")
 	logLine := &TestkitLog{
-		parent: instance.(*testkitImpl),
+		parent: instance.(*TestkitLogger),
 		Fields: expectedFields,
 		Err:    &someErr,
 	}

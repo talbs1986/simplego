@@ -33,23 +33,23 @@ Publisher: TBD <br>
 Consumer: TBD <br>
 
 ### Logger
-The logger module is a simple asbstraction of a logger interface.
+The [logger module](app/pkg/logger) is a simple asbstraction of a logger interface.
 The module aims to provide consistent usage of a logger and allowes plug and play of different implemenations
 aswell as providing a testable logger module
 #### impls
-* [FMT](app/pkg/logger)
+* [FMT](app/pkg/fmt)
 * [Zerolog](zerolog-logger)
 * [TestKit](testkit-logger)
 
 ### Configs
-The configs module is a simple lib to provide app configuraiton object injection.
+The [configs module](configs) is a simple lib to provide app configuraiton object injection.
 The module aims to provide simple configuration objects usage in an app and allowes plug and play of different
 configuration parsers for more complex solutions.
 #### impls
 * [GoEnv](goenv-configs)
 
 ### Metrics
-The configs module is a simple lib to provide app metrics.
+The [configs module](metrics) is a simple lib to provide app metrics.
 The module aims to provide simple usage of pushing and metrics objects and allowing plug and play of different
 metric providers.
 #### impls
@@ -80,10 +80,10 @@ The current forseeable roadmap for the project
 - [x] application shutdown sequence
 - [x] configuration module
 - [x] default configuration injector implementation - go-envconfig
-- [ ] metrics module
-- [ ] default metrics implementation - prometheus
-- [ ] metrics testkit module
-- [ ] application start / stop sequences support metrics
+- [x] metrics module
+- [x] default metrics implementation - prometheus
+- [x] metrics testkit module
+- [x] application start / stop sequences support metrics
 - [ ] default application start scenarios - job
 - [ ] server module
 - [ ] default server implementation - TBD (chi probably)
