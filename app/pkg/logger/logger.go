@@ -4,25 +4,38 @@ import (
 	"errors"
 )
 
+// LogFormat defines the log format type
 type LogFormat string
+
+// LogLevel defines the log level
 type LogLevel string
 
 const (
-	LogFormatJSON     LogFormat = "json"
+	// LogFormatJSON log format json
+	LogFormatJSON LogFormat = "json"
+	// LogFormatLogPrint log format standard print
 	LogFormatLogPrint LogFormat = "log"
 
+	// LogLevelTrace log lvl trace
 	LogLevelTrace LogLevel = "trace"
+	// LogLevelDebug log lvl debug
 	LogLevelDebug LogLevel = "debug"
-	LogLevelInfo  LogLevel = "info"
-	LogLevelWarn  LogLevel = "warn"
+	// LogLevelInfo log lvl info
+	LogLevelInfo LogLevel = "info"
+	// LogLevelWarn log lvl warn
+	LogLevelWarn LogLevel = "warn"
+	// LogLevelError log lvl error
 	LogLevelError LogLevel = "error"
+	// LogLevelFatal log lvl fatal
 	LogLevelFatal LogLevel = "fatal"
 )
 
 var (
+	// ErrUnknownLogLevel unknown log level error
 	ErrUnknownLogLevel = errors.New("unknown log level")
 )
 
+// ParseLogLevel parses log level type from string
 func ParseLogLevel(lvl string) (LogLevel, error) {
 	switch lvl {
 	case string(LogLevelTrace):
@@ -40,18 +53,4 @@ func ParseLogLevel(lvl string) (LogLevel, error) {
 	default:
 		return "", ErrUnknownLogLevel
 	}
-}
-
-var (
-	DefaultLevel  LogLevel  = LogLevelDebug
-	DefaultFormat LogFormat = LogFormatJSON
-	DefaultConfig *Config   = &Config{
-		Level:  &DefaultLevel,
-		Format: &DefaultFormat,
-	}
-)
-
-type Config struct {
-	Level  *LogLevel
-	Format *LogFormat
 }

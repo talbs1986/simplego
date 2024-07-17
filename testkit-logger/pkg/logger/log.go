@@ -6,8 +6,9 @@ import (
 	simplego "github.com/talbs1986/simplego/app/pkg/logger"
 )
 
+// TestkitLog defines a teskit log line
 type TestkitLog struct {
-	parent *testkitImpl
+	parent *TestkitLogger
 	Time   *time.Time
 	Fields simplego.LogFields
 	Msg    string

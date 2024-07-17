@@ -12,11 +12,13 @@ type goenvConfigParserImpl[T interface{}] struct {
 	instance *T
 }
 
+// NewGoEnvConfigParser creates a new go-env config parser
 func NewGoEnvConfigParser[T interface{}]() (simplego.ConfigParser[T], error) {
 	instance := &goenvConfigParserImpl[T]{}
 	return instance, nil
 }
 
+// Parse parses the env vars into a config object and set it as singleton
 func (s *goenvConfigParserImpl[T]) Parse(ctx context.Context) (*T, error) {
 	// env vars change only on app boot
 	if s.instance != nil {
@@ -31,6 +33,7 @@ func (s *goenvConfigParserImpl[T]) Parse(ctx context.Context) (*T, error) {
 	return s.instance, nil
 }
 
+// Get gets the current configuration object or null if not parsed yet
 func (s *goenvConfigParserImpl[T]) Get(ctx context.Context) (*T, error) {
 	if s.instance == nil {
 		return nil, nil

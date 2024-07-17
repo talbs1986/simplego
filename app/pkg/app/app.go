@@ -10,9 +10,11 @@ import (
 )
 
 const (
+	// DefaultServiceCloseTimeout the default time for waiting for services to close shutdown
 	DefaultServiceCloseTimeout = time.Second * 5
 )
 
+// NewApp creates a new application based on the config and options
 func NewApp(cfg *AppConfig, opts ...AppOpt) *App {
 	if len(cfg.Name) < 1 {
 		fmt.Fprintf(os.Stderr, "simplego app: failed to initialize app, service name is empty")

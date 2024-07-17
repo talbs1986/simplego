@@ -1,11 +1,14 @@
 DIRS = $(sort $(dir $(wildcard ./*/)))
 all: deps build tidy
 
+dep: 
+	cd ${DIR} && go get -d ${MODULE}
+
 deps:
 	cd ${DIR} && go get -v -t -d ./...
 
 build:
-	cd $(DIR) && go fmt ./...
+	cd $(DIR) && go build ./...
 
 tidy:
 	cd $(DIR) && go mod tidy
@@ -16,6 +19,9 @@ test:
 lint:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	cd $(DIR) && golangci-lint run
+
+lint_fix:
+	cd $(DIR) && golangci-lint run --fix
 
 dev_all:
 	for currDir in $(DIRS) ; do \
@@ -31,5 +37,12 @@ test_all:
 		fi \
 	done
 
-.PHONY: all deps build tidy lint dev_all
+lint_fix_all:
+	for currDir in $(DIRS) ; do \
+		if [ "$$currDir" != "./" ] ; then \
+    		make lint_fix DIR=$$currDir ; \
+		fi \
+	done
+
+.PHONY: all deps build tidy lint dev_all test_all dep lint_fix_all lint_fix
 

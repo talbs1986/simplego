@@ -7,6 +7,7 @@ import (
 	"github.com/talbs1986/simplego/app/pkg/logger"
 )
 
+// DefaultLogger default zerolog logger builder with config
 func DefaultLogger(cfg *logger.Config) logger.ILogger {
 	l, err := NewSimpleZerolog(cfg)
 	if err != nil {
@@ -16,6 +17,7 @@ func DefaultLogger(cfg *logger.Config) logger.ILogger {
 	return l
 }
 
+// DefaultLoggerWithDefaultConfig default zerolog logger builder with default config
 func DefaultLoggerWithDefaultConfig() logger.ILogger {
 	l, err := NewSimpleZerolog(logger.DefaultConfig)
 	if err != nil {
