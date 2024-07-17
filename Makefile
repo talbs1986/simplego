@@ -1,5 +1,5 @@
 DIRS = $(sort $(dir $(wildcard ./*/)))
-all: deps build tidy lint_fix
+all: deps build tidy
 
 dep: 
 	cd ${DIR} && go get -d ${MODULE}
