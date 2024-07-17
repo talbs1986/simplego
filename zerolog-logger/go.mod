@@ -6,7 +6,7 @@ replace github.com/talbs1986/simplego/app => ../app
 
 require (
 	github.com/rs/zerolog v1.29.2-0.20230618233044-9070d49a1a41
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.9.0
 	github.com/talbs1986/simplego/app v0.0.0-20230717062942-0331e9d59f6a
 )
 
