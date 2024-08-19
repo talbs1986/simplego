@@ -8,7 +8,17 @@ deps:
 	cd ${DIR} && go get -v -t -d ./...
 
 build:
-	cd $(DIR) && go build ./...
+	make clean ; \
+	cd $(DIR) ; \
+	tmp=$(DIR) ; \
+	out=$(DIR:./%/=%) ; \
+	go build -v -o ../../.build/"$$out" cmd/main.go ; \
+	cd ..
+
+clean:
+	tmp="$(DIR)" ; \
+	out=$(tmp:./%/=%) ; \
+	if [ -f "$$out" ] ; then rm ../../.build/"$$out" ; fi 
 
 tidy:
 	cd $(DIR) && go mod tidy
@@ -26,11 +36,7 @@ lint_fix:
 dev_all:
 	for currDir in $(DIRS) ; do \
 		if [ "$$currDir" != "./" ] ; then \
-			if [ "$$currDir" != "./scenarios/" ] ; then \
-    			make all DIR=$$currDir ; \
-			else \
-				cd scenarios && make dev_all && cd .. ; \
-			fi \
+    		make all DIR=$$currDir ; \
 		fi \
 	done
 
@@ -43,12 +49,10 @@ test_all:
 
 lint_fix_all:
 	for currDir in $(DIRS) ; do \
-		if [ "$$currDir" != "./scenarios/" ] ; then \
+		if [ "$$currDir" != "./" ] ; then \
     		make lint_fix DIR=$$currDir ; \
-		else \
-			cd scenarios && make lint_fix && cd .. ; \
 		fi \
 	done
 
-.PHONY: all deps build tidy lint dev_all test_all dep lint_fix_all lint_fix
+.PHONY: all deps build tidy lint dev_all test_all dep lint_fix_all lint_fix clean
 

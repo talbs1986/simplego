@@ -7,6 +7,20 @@ import (
 	"github.com/talbs1986/simplego/app/pkg/logger"
 )
 
+// Env defines the enviornment type the app is running on
+type Env string
+
+const (
+	// EnvLocal env local
+	EnvLocal = "local"
+	// EnvDev env dev
+	EnvDev Env = "dev"
+	// EnvStg env staging
+	EnvStg Env = "stg"
+	// EnvProd env production
+	EnvProd Env = "prd"
+)
+
 // CloseableService defines an api for a closeable service
 type CloseableService interface {
 	// Close cleans and closes resources
