@@ -4,7 +4,7 @@ import (
 	"context"
 )
 
-// Env defines the enviornment type the app is running on
+// Env defines the environment type the app is running on
 type Env string
 
 const (
@@ -26,7 +26,7 @@ type ConfigParser[T interface{}] interface {
 	Get(context.Context) (*T, error)
 }
 
-// EnvConfig defines the basic app enviornment config
+// EnvConfig defines the basic app environment config
 type EnvConfig struct {
 	Env Env `env:"ENV, default=local"`
 }
