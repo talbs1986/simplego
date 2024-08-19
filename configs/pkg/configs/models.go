@@ -2,8 +2,20 @@ package configs
 
 import (
 	"context"
+)
 
-	"github.com/talbs1986/simplego/app/pkg/app"
+// Env defines the enviornment type the app is running on
+type Env string
+
+const (
+	// EnvLocal env local
+	EnvLocal Env = "local"
+	// EnvDev env dev
+	EnvDev Env = "dev"
+	// EnvStg env staging
+	EnvStg Env = "stg"
+	// EnvProd env production
+	EnvProd Env = "prd"
 )
 
 // ConfigParser defines an api for the configuration parser
@@ -14,10 +26,12 @@ type ConfigParser[T interface{}] interface {
 	Get(context.Context) (*T, error)
 }
 
+// EnvConfig defines the basic app enviornment config
 type EnvConfig struct {
-	Env app.Env `env:"ENV, default=local"`
+	Env Env `env:"ENV, default=local"`
 }
 
+// LoggerConfig defines the basic app logger config
 type LoggerConfig struct {
 	LogLevel string `env:"LOG_LEVEL, default=debug"`
 }
