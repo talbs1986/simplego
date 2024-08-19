@@ -5,8 +5,8 @@ go 1.20
 replace github.com/talbs1986/simplego/configs => ../configs
 
 require (
-	github.com/stretchr/testify v1.9.0
 	github.com/sethvargo/go-envconfig v1.1.0
+	github.com/stretchr/testify v1.9.0
 	github.com/talbs1986/simplego/configs v0.0.0-20230717062942-0331e9d59f6a
 )
 
