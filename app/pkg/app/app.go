@@ -23,6 +23,7 @@ func NewApp(cfg *AppConfig, opts ...AppOpt) *App {
 
 	s := &App{
 		closeableServices: []CloseableService{},
+		appServices:       map[string]interface{}{},
 	}
 	for _, opt := range opts {
 		opt(s)

@@ -84,7 +84,7 @@ The current forseeable roadmap for the project
 - [x] default metrics implementation - prometheus
 - [x] metrics testkit module
 - [x] application start / stop sequences support metrics
-- [ ] default application start scenarios - job
+- [x] default application start scenarios - job
 - [ ] server module
 - [ ] default server implementation - TBD (chi probably)
 - [ ] server testkit module
