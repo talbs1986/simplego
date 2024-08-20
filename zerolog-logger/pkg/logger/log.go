@@ -54,7 +54,7 @@ func (l *zerologLog) Fatal(err error, msg string) {
 }
 
 func (l *zerologLog) checkErrAndLogMsg(underlyingEvent *zerolog.Event, err *error, msg string) {
-	underlyingEvent.Fields(l.fields)
+	underlyingEvent.Fields(map[string]interface{}(l.fields))
 	if err != nil {
 		l.err = err
 		underlyingEvent = underlyingEvent.Err(*l.err)

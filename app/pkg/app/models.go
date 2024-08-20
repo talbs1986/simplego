@@ -18,9 +18,9 @@ type AppOpt func(*App)
 
 // AppConfig defines the configurations object for the App
 type AppConfig struct {
-	Name                string
-	Version             string
-	ServiceCloseTimeout time.Duration
+	Name                string        `env:"APP_NAME, default=serviceA"`
+	Version             string        `env:"APP_VERSION, default=1.0.0"`
+	ServiceCloseTimeout time.Duration `env:"APP_SERVICE_CLOSE_TIMEOUT, default=30s"`
 }
 
 // App defines the application object
