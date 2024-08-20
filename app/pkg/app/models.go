@@ -35,13 +35,3 @@ type App struct {
 
 	appServices map[string]interface{}
 }
-
-// RegisterAppService registers a service to the App
-func (s *App) RegisterAppService(key string, service interface{}) {
-	s.appServices[key] = service
-}
-
-// GetAppService gets a service by key from the registers App services
-func (s *App) GetAppService(key string) interface{} {
-	return s.appServices[key]
-}

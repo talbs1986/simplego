@@ -41,3 +41,13 @@ func NewApp(cfg *AppConfig, opts ...AppOpt) *App {
 	s.slog.Info("simplego app: initialized successfully :) , GL HF")
 	return s
 }
+
+// RegisterAppService registers a service to the App
+func (s *App) RegisterAppService(key string, service interface{}) {
+	s.appServices[key] = service
+}
+
+// GetAppService gets a service by key from the registers App services
+func (s *App) GetAppService(key string) interface{} {
+	return s.appServices[key]
+}

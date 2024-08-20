@@ -26,4 +26,4 @@ go.work.sum
 *.code-workspace
 
 # Builds
-# .build/** TODO unmark
+.build/**
