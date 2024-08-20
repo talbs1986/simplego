@@ -25,7 +25,7 @@ func main() {
 }
 
 func proc(appObj *app.App) error {
-	cfg, err := simplego_config.GetConfig[SomeConfig](appObj)
+	cfg, err := simplego_config.GetConfig[scenarios.JobConfig[SomeConfig]](appObj)
 	if err != nil {
 		return err
 	}
