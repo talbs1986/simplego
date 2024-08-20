@@ -1,10 +1,12 @@
 module github.com/talbs1986/simplego/scenarios/job-app
 
-go 1.20
+go 1.21
 
 replace github.com/talbs1986/simplego/goenv-configs => ../../goenv-configs
 
 replace github.com/talbs1986/simplego/configs => ../../configs
+
+replace github.com/talbs1986/simplego/metrics => ../../metrics
 
 replace github.com/talbs1986/simplego/prom-metrics => ../../prom-metrics
 
@@ -24,5 +26,7 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/rs/zerolog v1.33.0 // indirect
 	github.com/sethvargo/go-envconfig v1.1.0 // indirect
-	golang.org/x/sys v0.12.0 // indirect
+	github.com/talbs1986/simplego/metrics v0.0.0-20240820052917-4c1fbac69c95 // indirect
+	github.com/talbs1986/simplego/prom-metrics v0.0.0-20240820052917-4c1fbac69c95 // indirect
+	golang.org/x/sys v0.20.0 // indirect
 )
