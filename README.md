@@ -10,32 +10,19 @@ Each module will contain teskit module in order to encourage dependency injectio
 
 ## contents
 ### App
-The application module is a simple but the root of all modules.
-The module aims to reduce code around Start and Stop sequences and supports injection
-of other simplego modules
-
-**Start Sequence** <br>
-Job: TBD <br>
-Server: TBD <br>
-Cache: TBD <br>
-Metrics: TBD <br>
-Trace: TBD <br>
-Publisher: TBD <br>
-Consumer: TBD <br>
-
-**Stop Sequence** <br>
-Job: TBD <br>
-Server: TBD <br>
-Cache: TBD <br>
-Metrics: TBD <br>
-Trace: TBD <br>
+The application module is the root object which will provide
+the developer with the basic functionalities 
+and will be extended by each simplego module 
+ 
+### Scenarios
+Job:
+Service: TBD <br>
 Publisher: TBD <br>
 Consumer: TBD <br>
 
 ### Logger
 The [logger module](app/pkg/logger) is a simple asbstraction of a logger interface.
-The module aims to provide consistent usage of a logger and allowes plug and play of different implemenations
-aswell as providing a testable logger module
+The module aims to provide consistent usage of a logger of different impls
 #### impls
 * [FMT](app/pkg/fmt)
 * [Zerolog](zerolog-logger)
@@ -43,26 +30,28 @@ aswell as providing a testable logger module
 
 ### Configs
 The [configs module](configs) is a simple lib to provide app configuraiton object injection.
-The module aims to provide simple configuration objects usage in an app and allowes plug and play of different
-configuration parsers for more complex solutions.
+The module aims to provide simple configuration objects usage in an app of different impls
 #### impls
 * [GoEnv](goenv-configs)
 
 ### Metrics
-The [configs module](metrics) is a simple lib to provide app metrics.
-The module aims to provide simple usage of pushing and metrics objects and allowing plug and play of different
-metric providers.
+The [metrics module](metrics) is a simple lib to provide app metrics.
+The module aims to provide simple api and models to support a push / get metrics objects of different impls
 #### impls
 * [Prometheus](prom-metrics)
 * [TestKit](testkit-metrics)
+
+### Server
+The [server module](server) is a simple lib to provide a web server
+The module aims to provide simple api and models to registering routes and starting to listen for request by different impls
+#### impls
+* [Chi](chi-server)
+* [TestKit](testkit-server)
 
 ### Trace
 TBD
 
 ### Cache
-TBD
-
-### Server
 TBD
 
 ### Publisher
@@ -85,8 +74,8 @@ The current forseeable roadmap for the project
 - [x] metrics testkit module
 - [x] application start / stop sequences support metrics
 - [x] default application start scenarios - job
-- [ ] server module
-- [ ] default server implementation - TBD (chi probably)
+- [x] server module
+- [x] default server implementation - chi
 - [ ] server testkit module
 - [ ] application start / stop scenarios - server
 - [ ] publisher / consumer modules
@@ -118,7 +107,7 @@ An example of downloading module deps and building the logger module
 make all DIR=logger
 ```
 
-In the same format , is supported 
+the following command will work on the same pattern
 - lint
 - build
 - tidy
@@ -151,7 +140,7 @@ In case u find a feature is missing, please dont hesitate to open a FR (Feature 
 
 **Roadmap Features:** <br>
 When you want to submit a new feature out of the roadmap. please take the following into considuraiton
-1. Modules should be Tesatble
+1. Modules should be Testable
 2. Tests should cover most of the cases to give assurance & example of usage
 3. Modules should be isolated to reduce dependencies and thrive for more encapsulated code structure
 4. Modules should provide a testkit
