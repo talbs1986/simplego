@@ -32,15 +32,15 @@ func NewChiServer(l logger.ILogger, cfg *simplego.ServerConfig, opts ...ChiServe
 		opt(s)
 	}
 
-	if s.srvr == nil {
-		s.srvr = &http.Server{
-			Addr:              cfg.Addr,
-			ReadTimeout:       cfg.ReadTimeout,
-			ReadHeaderTimeout: cfg.ReadHeaderTimeout,
-			WriteTimeout:      cfg.WriteTimeout,
-			IdleTimeout:       cfg.IdleTimeout,
-		}
+	s.srvr = &http.Server{
+		Handler:           s.router,
+		Addr:              cfg.Addr,
+		ReadTimeout:       cfg.ReadTimeout,
+		ReadHeaderTimeout: cfg.ReadHeaderTimeout,
+		WriteTimeout:      cfg.WriteTimeout,
+		IdleTimeout:       cfg.IdleTimeout,
 	}
+
 	return s, nil
 }
 

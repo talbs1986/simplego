@@ -5,7 +5,7 @@ import (
 	"github.com/talbs1986/simplego/server/pkg/server"
 )
 
-// GetMetricsService gets the registered application metrics service
-func GetMetricsService(s *simplego.App) server.IServer {
+// GetServerService gets the registered application server service
+func GetServerService(s *simplego.App) server.IServer {
 	return s.GetAppService(appKeyServiceServer).(server.IServer)
 }

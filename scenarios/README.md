@@ -10,5 +10,5 @@ in order to run a simple job code that provides the basics
 ### Job
 The application which processes some functionality that suppose to shutdown afterwards
 
-### WebService
-The application which runs forever and provides a web server for interactions
+### Service
+The application which runs until sigterm and provides a web server for interactions

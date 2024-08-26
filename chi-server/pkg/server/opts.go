@@ -1,8 +1,6 @@
 package server
 
 import (
-	"net/http"
-
 	simplego "github.com/talbs1986/simplego/server/pkg/server"
 )
 
@@ -10,23 +8,22 @@ import (
 func WithMiddlewares(ms []simplego.ServerMiddleware) ChiServerOpt {
 	return func(s *chiServerImpl) {
 		for _, m := range ms {
-			s.UseMiddleware(m)
+			middleware := m
+			if err := s.UseMiddleware(middleware); err != nil {
+				s.logger.Log().Fatal(err, "simplego chi server: failed to set app middlewares")
+			}
 		}
 	}
 }
 
-// WithRoutes registeres the provided middleware
+// WithRoutes registers the provided middleware
 func WithRoutes(rs []simplego.ServerRoute) ChiServerOpt {
 	return func(s *chiServerImpl) {
 		for _, r := range rs {
-			s.RegisterRoute(r)
+			route := r
+			if err := s.RegisterRoute(route); err != nil {
+				s.logger.Log().Fatal(err, "simplego chi server: failed to set app middlewares")
+			}
 		}
-	}
-}
-
-// WithHTTPServer sets the http server
-func WithHTTPServer(h *http.Server) ChiServerOpt {
-	return func(s *chiServerImpl) {
-		s.srvr = h
 	}
 }
