@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html"
 	"io"
 	"net/http"
 	"time"
@@ -46,7 +47,7 @@ func proc(appObj *app.App) error {
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
-			if _, err := w.Write(bs); err != nil {
+			if _, err := w.Write([]byte(html.EscapeString(string(bs)))); err != nil {
 				appObj.Logger.Log().With(&logger.LogFields{"req": string(bs)}).Error(err, "service: failed to write response")
 				_, _ = w.Write([]byte("failed to write response"))
 				w.WriteHeader(http.StatusInternalServerError)

@@ -2,6 +2,7 @@ package server
 
 import (
 	"errors"
+	"html"
 	"net/http"
 	"net/url"
 
@@ -59,7 +60,7 @@ func (r *InternalServerResponse) WriteHeader(code int) {
 }
 
 func (r *InternalServerResponse) Write(b []byte) (int, error) {
-	n, err := r.ResponseWriter.Write(b)
+	n, err := r.ResponseWriter.Write([]byte(html.EscapeString(string(b))))
 	r.BytesWritten += int64(n)
 	return n, err
 }
