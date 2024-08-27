@@ -31,7 +31,7 @@ type ServerRoute struct {
 
 type ServerMiddleware = func(http.Handler) http.Handler
 type ServerRouteHandle = http.HandlerFunc
-type HealthRouteValidator = func(*url.URL) bool
+type SilentRoutesValidator = func(*url.URL) bool
 
 // ErrInvalidMethod method is invalid error
 var ErrInvalidMethod = errors.New("simplego server: method is invalid")
@@ -41,3 +41,25 @@ var ErrInvalidRoute = errors.New("simplego server: route is invalid")
 
 // ErrMissingMiddleware missing middleware error
 var ErrMissingMiddleware = errors.New("simplego server: server middleware is missing")
+
+// InternalServerResponse defines an object of server response for internal usage
+type InternalServerResponse struct {
+	http.ResponseWriter
+	Status       int
+	BytesWritten int64
+}
+
+func (r *InternalServerResponse) Header() http.Header {
+	return r.ResponseWriter.Header()
+}
+
+func (r *InternalServerResponse) WriteHeader(code int) {
+	r.Status = code
+	r.ResponseWriter.WriteHeader(code)
+}
+
+func (r *InternalServerResponse) Write(b []byte) (int, error) {
+	n, err := r.ResponseWriter.Write(b)
+	r.BytesWritten += int64(n)
+	return n, err
+}

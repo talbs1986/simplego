@@ -39,15 +39,11 @@ func StartService[T interface{}](cfg *ServiceConfig[T], f ExecutionFunc) {
 	if err != nil {
 		panic(fmt.Errorf("simplego service: failed to init metrics service, due to: %w", err))
 	}
-	metricsMiddleware, err := scenario_server.NewMetricsMiddleware(metricService)
-	if err != nil {
-		panic(fmt.Errorf("simplego service: failed to init metrics server middleware, due to: %w", err))
-	}
 
 	// init server
 	serverService, err := server.NewChiServer(logger, &parsedEnvConfig.ServerConfig,
-		server.WithMiddlewares(server.BuildDefaultServerMiddlewares(parsedEnvConfig.RequestTimeout, logger, metricsMiddleware)),
-		server.WithRoutes(server.BuildDefaultServeHealthRoutes()))
+		server.WithMiddlewares(scenario_server.BuildDefaultServerMiddlewares(parsedEnvConfig.RequestTimeout, logger, metricService)),
+		server.WithRoutes(scenario_server.BuildDefaultServerRoutes(metricService)))
 	if err != nil {
 		panic(fmt.Errorf("simplego service: failed to init server, due to: %w", err))
 	}

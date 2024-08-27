@@ -36,7 +36,7 @@ func proc(appObj *app.App) error {
 	srvr := simplego_server.GetServerService(appObj)
 	middlewares := srvr.GetMiddlewares()
 	if err := srvr.RegisterRoute(server.ServerRoute{
-		Method: http.MethodGet,
+		Method: http.MethodPost,
 		Route:  "/echo",
 		Handler: func(w http.ResponseWriter, r *http.Request) {
 			bs, err := io.ReadAll(r.Body)
@@ -52,7 +52,6 @@ func proc(appObj *app.App) error {
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
-			w.WriteHeader(http.StatusOK)
 		},
 	}); err != nil {
 		appObj.Logger.Log().Fatal(err, "simplego service: failed to register route")

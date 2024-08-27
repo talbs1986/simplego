@@ -19,6 +19,7 @@ replace github.com/talbs1986/simplego/server => ../../server
 replace github.com/talbs1986/simplego/chi-server => ../../chi-server
 
 require (
+	github.com/go-chi/chi/v5 v5.1.0
 	github.com/talbs1986/simplego/app v0.0.0-20240819061751-864645887469
 	github.com/talbs1986/simplego/chi-server v0.0.0-00010101000000-000000000000
 	github.com/talbs1986/simplego/configs v0.0.0-20240819061703-e4a65cc20bb3
@@ -32,7 +33,6 @@ require (
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/go-chi/chi/v5 v5.1.0 // indirect
 	github.com/klauspost/compress v1.17.9 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
