@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -25,8 +26,12 @@ func NewMetricsMiddleware(service simplego_metrics.IMetrics, silentRouteValidato
 			duration := float64(time.Since(start).Milliseconds())
 			status := strconv.Itoa(wrapped.Status)
 			routePath := routeExtractor(r.URL)
-			reqCounter.Inc(simplego_metrics.MetricLabels{"path": routePath, "method": r.Method, "status": status})
-			reqLatency.Record(duration, simplego_metrics.MetricLabels{"path": routePath, "method": r.Method, "status": status})
+			if err := reqCounter.Inc(simplego_metrics.MetricLabels{"path": routePath, "method": r.Method, "status": status}); err != nil {
+				panic(fmt.Errorf("simplego service: metrics middleware failed to inc request counter metric, due to :%w", err))
+			}
+			if err := reqLatency.Record(duration, simplego_metrics.MetricLabels{"path": routePath, "method": r.Method, "status": status}); err != nil {
+				panic(fmt.Errorf("simplego service: metrics middleware failed to handle request latency metric, due to :%w", err))
+			}
 		})
 	}
 }

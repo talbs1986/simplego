@@ -23,6 +23,10 @@ var (
 	}
 )
 
+const (
+	defaultRouteExtractPathLvl = 3
+)
+
 func BuildDefaultSilentRoutesValidator() simplego_server.SilentRoutesValidator {
 	return func(u *url.URL) bool {
 		path := u.Path
@@ -50,7 +54,6 @@ func BuildDefaultServerRoutes(metricsService simplego_metrics.IMetrics) []simple
 			Route:  "/health",
 			Handler: func(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusOK)
-				return
 			},
 		},
 		{
@@ -58,7 +61,6 @@ func BuildDefaultServerRoutes(metricsService simplego_metrics.IMetrics) []simple
 			Route:  "/ready",
 			Handler: func(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusOK)
-				return
 			},
 		},
 		{
@@ -66,7 +68,6 @@ func BuildDefaultServerRoutes(metricsService simplego_metrics.IMetrics) []simple
 			Route:  "/metrics",
 			Handler: func(w http.ResponseWriter, r *http.Request) {
 				metricsHandler.ServeHTTP(w, r)
-				return
 			},
 		},
 	}
@@ -94,7 +95,7 @@ func BuildDefaultServerMiddlewares(reqTimeout time.Duration, logger logger.ILogg
 	tmp = append(tmp,
 		middleware.Timeout(reqTimeout),
 		NewLoggerMiddleware(logger, silentRouteValidator),
-		NewMetricsMiddleware(metricsService, silentRouteValidator, BuildDefaultReqRouteExtractor(3), reqsCounter, reqsLatencyHist))
+		NewMetricsMiddleware(metricsService, silentRouteValidator, BuildDefaultReqRouteExtractor(defaultRouteExtractPathLvl), reqsCounter, reqsLatencyHist))
 	if len(userMiddlewares) > 0 {
 		tmp = append(tmp, userMiddlewares...)
 	}
