@@ -45,6 +45,9 @@ func NewApp(cfg *AppConfig, opts ...AppOpt) *App {
 // RegisterAppService registers a service to the App
 func (s *App) RegisterAppService(key string, service interface{}) {
 	s.appServices[key] = service
+	if closeable, ok := service.(CloseableService); ok {
+		s.closeableServices = append(s.closeableServices, closeable)
+	}
 }
 
 // GetAppService gets a service by key from the registers App services

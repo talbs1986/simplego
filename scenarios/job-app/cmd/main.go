@@ -29,6 +29,6 @@ func proc(appObj *app.App) error {
 	if err != nil {
 		return err
 	}
-	appObj.Logger.Log().With(&logger.LogFields{"config": cfg}).Info("simplego job: doing smth...")
+	appObj.Logger.Log().With(&logger.LogFields{"config": cfg}).Info("job: doing smth...")
 	return nil
 }

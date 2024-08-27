@@ -22,7 +22,7 @@ type PromMetricsOpt func(s *promMetricsImpl)
 
 type promMetricsImpl struct {
 	logger             logger.ILogger
-	registerer         *prometheus.Registry
+	registerer         prometheus.Registerer
 	pusher             simplego.MetricsPusher
 	metricsHTTPHandler http.Handler
 	counters           map[string]simplego.ICounter
@@ -36,7 +36,7 @@ func NewPromMetrics(l logger.ILogger, cfg *PromMetricsConfig, opts ...PromMetric
 		return instance, nil
 	}
 	s := &promMetricsImpl{
-		registerer: prometheus.NewRegistry(),
+		registerer: prometheus.DefaultRegisterer,
 		logger:     l,
 	}
 
