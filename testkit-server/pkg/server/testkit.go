@@ -48,8 +48,8 @@ func (s *TestkitServer) Start() error {
 }
 
 // TestRoute runs the middlewares and then the route
-func (s *TestkitServer) TestRoute(method string, path string, body []byte) error {
-	testMiddleware := TestkitMiddleware{}
+func (s *TestkitServer) TestRoute(ctx context.Context, method string, path string, body []byte) error {
+	testMiddleware := &TestkitMiddleware{}
 	for _, m := range s.Middlewares {
 		m(testMiddleware)
 	}
@@ -58,7 +58,7 @@ func (s *TestkitServer) TestRoute(method string, path string, body []byte) error
 		return errors.New("simplego server testkit: failed to find route")
 	}
 
-	req, err := http.NewRequest(method, path, bytes.NewBuffer(body))
+	req, err := http.NewRequestWithContext(ctx, method, path, bytes.NewBuffer(body))
 	if err != nil {
 		return errors.New("simplego server testkit: failed to create req")
 	}
