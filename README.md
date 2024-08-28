@@ -15,10 +15,18 @@ the developer with the basic functionalities
 and will be extended by each simplego module 
  
 ### Scenarios
-Job:
-Service: TBD <br>
-Publisher: TBD <br>
-Consumer: TBD <br>
+#### job
+a scenario of a job that starts by initializing metrics pusher stops after the executed code
+
+#### service
+a scenario of a service that starts by initializing a server which will log, observe and handle incoming requests
+the scenario will stop at sigterm
+
+#### publisher
+TBD
+
+#### consumer
+TBD
 
 ### Logger
 The [logger module](app/pkg/logger) is a simple asbstraction of a logger interface.
@@ -76,8 +84,8 @@ The current forseeable roadmap for the project
 - [x] default application start scenarios - job
 - [x] server module
 - [x] default server implementation - chi
-- [ ] server testkit module
-- [ ] application start / stop scenarios - server
+- [x] server testkit module
+- [x] application start / stop scenarios - service
 - [ ] publisher / consumer modules
 - [ ] default publisher / consumer implemenatation - nats
 - [ ] publisher / consimer testkit modules
