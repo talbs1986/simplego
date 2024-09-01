@@ -5,10 +5,6 @@ import (
 	"github.com/talbs1986/simplego/messaging/pkg/messaging"
 )
 
-const (
-	appKeyServiceMetrics = "metrics"
-)
-
 // WithConsumer registers a consumer by name with the app
 func WithConsumer(consumerName string, c messaging.IConsumer) simplego.AppOpt {
 	return func(s *simplego.App) {
