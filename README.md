@@ -62,11 +62,17 @@ TBD
 ### Cache
 TBD
 
-### Publisher
-TBD
-
-### Consumer
-TBD
+### Messaging
+The [messaging module](messaging) is a simple lib to provide a message publisher and consumer
+The module aims to provide simple api and models to publish and consume messages by different impls
+#### publisher impls
+* [NATS](nats-publisher)
+* [Kafka (TBD)](kafka-publisher)
+* [TestKit](testkit-publisher)
+#### consumer impls
+* [NATS](nats-consumer)
+* [Kafka (TBD)](kafka-publisher)
+* [TestKit](testkit-consumer)
 
 ## roadmap
 The current forseeable roadmap for the project 
@@ -86,10 +92,11 @@ The current forseeable roadmap for the project
 - [x] default server implementation - chi
 - [x] server testkit module
 - [x] application start / stop scenarios - service
-- [ ] publisher / consumer modules
+- [x] publisher / consumer modules
 - [ ] default publisher / consumer implemenatation - nats
 - [ ] publisher / consimer testkit modules
 - [ ] application start / stop scenarios - publisher / consumer
+- [ ] publisher / consumer kafka impls
 - [ ] cache module
 - [ ] default cache implementation - redis
 - [ ] cache testkit module
@@ -98,6 +105,7 @@ The current forseeable roadmap for the project
 - [ ] default trace implementation - jager
 - [ ] trace testkit module
 - [ ] application start / stop sequences support trace
+
 
 ## wishlist
 - [ ] dynamic config object update - vault impl
