@@ -11,7 +11,7 @@ type IConsumer interface {
 	// Consume - start consume messages
 	Consume(string, MsgProcessor) error
 	// Status - returns current unacked count
-	Status(context.Context) (int64, error)
+	Status(context.Context) (uint64, error)
 	// Pull - pulls sync messages
 	Pull(string, int, MsgProcessor) ([]*MessageWrapper, error)
 	// CloseableService clean and close resources api

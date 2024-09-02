@@ -130,12 +130,12 @@ func (s *natsConsumerImpl) Pull(subject string, maxMsgBatch int, proc simplego.M
 }
 
 // Status - returns current unacked count
-func (s *natsConsumerImpl) Status(ctx context.Context) (int64, error) {
+func (s *natsConsumerImpl) Status(ctx context.Context) (uint64, error) {
 	info, err := s.stream.ConsumerInfo(s.streamName, s.consumerGroup)
 	if err != nil {
-		return -1, fmt.Errorf("simplego nats consumer: '%s' failed to return status from stream '%s' ,due to: %w", s.consumerGroup, s.streamName, err)
+		return 0, fmt.Errorf("simplego nats consumer: '%s' failed to return status from stream '%s' ,due to: %w", s.consumerGroup, s.streamName, err)
 	}
-	return int64(info.NumPending), nil
+	return info.NumPending, nil
 }
 
 func (s *natsConsumerImpl) buildHandleMsg(proc simplego.MsgProcessor) func(msg *nats.Msg) {

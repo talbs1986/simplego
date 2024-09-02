@@ -57,10 +57,10 @@ func (s *testkitConsumer) Pull(dest string, maxMsgBatch int, proc simplego.MsgPr
 }
 
 // Status - returns current unacked count
-func (s *testkitConsumer) Status(ctx context.Context) (int64, error) {
-	count := int64(0)
+func (s *testkitConsumer) Status(ctx context.Context) (uint64, error) {
+	count := uint64(0)
 	for _, stream := range s.stream {
-		count += int64(len(stream))
+		count += uint64(len(stream))
 	}
 	return count, nil
 }
