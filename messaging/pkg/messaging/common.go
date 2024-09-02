@@ -11,8 +11,8 @@ type MessageWrapper struct {
 	Sender string `json:"sender"`
 	// ts - message published timestamp milliseconds
 	Timestamp int64 `json:"ts"`
-	// eventType - event type
-	EventType MessageType `json:"eventType"`
+	// Type - message type
+	Type MessageType `json:"messageType"`
 	// payload - message payload
 	Payload interface{} `json:"payload"`
 }

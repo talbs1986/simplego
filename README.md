@@ -65,14 +65,10 @@ TBD
 ### Messaging
 The [messaging module](messaging) is a simple lib to provide a message publisher and consumer
 The module aims to provide simple api and models to publish and consume messages by different impls
-#### publisher impls
-* [NATS](nats-publisher)
-* [Kafka (TBD)](kafka-publisher)
-* [TestKit](testkit-publisher)
-#### consumer impls
-* [NATS](nats-consumer)
-* [Kafka (TBD)](kafka-publisher)
-* [TestKit](testkit-consumer)
+#### impls
+* [NATS](nats-messaging)
+* [Kafka (TBD)](kafka-messaging)
+* [TestKit](testkit-messaging)
 
 ## roadmap
 The current forseeable roadmap for the project 
