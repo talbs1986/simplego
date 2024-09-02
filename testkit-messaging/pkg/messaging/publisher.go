@@ -12,7 +12,7 @@ import (
 
 // TestKitPublisherConfig - testkit publisher config object
 type TestKitPublisherConfig struct {
-	//ServiceName - unique service name
+	// ServiceName - unique service name
 	ServiceName string `json:"serviceName"`
 }
 

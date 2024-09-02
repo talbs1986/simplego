@@ -41,7 +41,7 @@ func (s *testkitConsumer) Consume(dest string, proc simplego.MsgProcessor) error
 			SIM_ACK:
 				for {
 					if err := proc(msg); err != nil {
-						<-time.After(time.Millisecond * 10)
+						<-time.After(time.Millisecond * 10) //nolint:mnd
 						continue
 					}
 					break SIM_ACK

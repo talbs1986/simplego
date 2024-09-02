@@ -16,19 +16,19 @@ type NATSConsumerOpt func(s *natsConsumerImpl)
 
 // NATSConsumerConfig - eventbus nats consumer config object
 type NATSConsumerConfig struct {
-	//ServiceName - unique service name
+	// ServiceName - unique service name
 	ServiceName string `json:"serviceName"`
-	//Destination - stream name to consume from
+	// Destination - stream name to consume from
 	Destination string `json:"destination"`
-	//NATSClusterHost - nats cluster host
+	// NATSClusterHost - nats cluster host
 	NATSClusterHost string `json:"natsCluserHost"`
-	//NATSClusterUser - nats cluster user
+	// NATSClusterUser - nats cluster user
 	NATSClusterUser string `json:"natsClusterUser"`
-	//NATSClusterPassword - nats cluster password
+	// NATSClusterPassword - nats cluster password
 	NATSClusterPassword string `json:"natsClusterPassword"`
-	//MaxPendingMsgs - nats consumer flow control for max pending msgs for all consumers
+	// MaxPendingMsgs - nats consumer flow control for max pending msgs for all consumers
 	MaxPendingMsgs int `json:"maxPendingMsgs"`
-	//NATSStreamConfig - nats stream config shared with publisher
+	// NATSStreamConfig - nats stream config shared with publisher
 	*NATSStreamConfig `json:"streamConfig"`
 }
 
@@ -43,7 +43,6 @@ type natsConsumerImpl struct {
 	sub             *nats.Subscription
 	upsertStreamOpt bool
 	dest            string
-	proc            simplego.MsgProcessor
 }
 
 // NewNATSConsumer - creates a new eventbus consumer using nats
@@ -105,7 +104,7 @@ func (s *natsConsumerImpl) Consume(subject string, proc simplego.MsgProcessor) e
 }
 
 func (s *natsConsumerImpl) Pull(subject string, maxMsgBatch int, proc simplego.MsgProcessor) ([]*simplego.MessageWrapper, error) {
-	//TODO create map of subjects
+	// TODO create map of subjects
 	if s.sub == nil {
 		sub, err := s.stream.PullSubscribe(subject, s.consumerGroup, nats.BindStream(s.streamName), nats.MaxAckPending(s.maxPendingMsgs))
 		if err != nil {

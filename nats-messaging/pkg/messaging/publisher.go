@@ -27,7 +27,7 @@ type NATSPublisherConfig struct {
 	NATSClusterUser string `json:"natsClusterUser"`
 	// NATSClusterPassword - nats cluster password
 	NATSClusterPassword string `json:"natsClusterPassword"`
-	//NATSStreamConfig - nats stream config to upsert stream settings
+	// NATSStreamConfig - nats stream config to upsert stream settings
 	*NATSStreamConfig `json:"streamConfig"`
 }
 
