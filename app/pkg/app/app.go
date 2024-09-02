@@ -50,7 +50,7 @@ func (s *App) RegisterAppService(key string, service interface{}) {
 	}
 }
 
-// GetAppService gets a service by key from the registers App services
+// GetAppService gets a service by key from the registers App services or nil if missing
 func (s *App) GetAppService(key string) interface{} {
 	return s.appServices[key]
 }
