@@ -12,7 +12,7 @@ jobs:
         with:
           go-version: "^1.20"
           cache-dependency-path: ${{ matrix.dir }}/go.mod
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 2
       - name: Get changed files
@@ -49,7 +49,7 @@ jobs:
     steps:
       - name: Start lib
         run: echo Building ${{ matrix.dir }}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
