@@ -1,6 +1,6 @@
 module github.com/talbs1986/simplego/chi-server
 
-go 1.21
+go 1.24
 
 replace github.com/talbs1986/simplego/server => ../server
 

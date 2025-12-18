@@ -1,6 +1,6 @@
 module github.com/talbs1986/simplego/prom-metrics
 
-go 1.21
+go 1.24
 
 replace github.com/talbs1986/simplego/metrics => ../metrics
 
