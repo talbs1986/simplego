@@ -5,6 +5,10 @@ updates:
       - "/**"
     schedule:
       interval: "weekly"
+    groups:
+      gh-actions:
+        patterns:
+          - "*"
 
       
   - package-ecosystem: "gomod"
@@ -12,6 +16,10 @@ updates:
       - "/**"
     schedule:
       interval: "weekly"
+    groups:
+      golang-deps:
+        patterns:
+          - "*"
 
 
   - package-ecosystem: "docker"
@@ -19,3 +27,7 @@ updates:
       - "/**"
     schedule:
       interval: "weekly"
+    groups:
+      docker:
+        patterns:
+          - "*"
