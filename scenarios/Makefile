@@ -1,4 +1,5 @@
 DIRS = $(sort $(dir $(wildcard ./*/)))
+
 all: deps build tidy
 
 dep: 

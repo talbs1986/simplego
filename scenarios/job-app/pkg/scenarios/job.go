@@ -39,7 +39,8 @@ func StartJob[T interface{}](cfg *JobConfig[T], f ExecutionFunc) {
 	}
 
 	// init app
-	appObj := app.NewApp(&parsedEnvConfig.AppConfig,
+	appObj := app.NewApp(
+		&parsedEnvConfig.AppConfig,
 		simplego_config.WithConfigParser(cfgParser),
 		app.WithLogger(logger),
 		simplego_metrics.WithMetrics(metricService),
