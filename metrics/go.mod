@@ -1,6 +1,6 @@
 module github.com/talbs1986/simplego/metrics
 
-go 1.20
+go 1.24
 
 replace github.com/talbs1986/simplego/app => ../app
 
