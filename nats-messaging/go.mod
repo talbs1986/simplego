@@ -1,6 +1,8 @@
 module github.com/talbs1986/simplego/nats-messaging
 
-go 1.20
+go 1.24
+
+toolchain go1.24.11
 
 replace github.com/talbs1986/simplego/app => ../app
 
