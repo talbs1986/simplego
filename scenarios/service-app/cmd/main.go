@@ -4,7 +4,6 @@ import (
 	"html"
 	"io"
 	"net/http"
-	"time"
 
 	"github.com/talbs1986/simplego/app/pkg/app"
 	"github.com/talbs1986/simplego/app/pkg/logger"
@@ -14,23 +13,16 @@ import (
 	"github.com/talbs1986/simplego/server/pkg/server"
 )
 
-type SomeConfig struct {
-}
+type MyConfig struct{}
 
 func main() {
-	scenarios.StartService[SomeConfig](
-		&scenarios.ServiceConfig[SomeConfig]{
-			AppConfig: app.AppConfig{
-				Name:                "service-exmaple",
-				Version:             "1.0.0",
-				ServiceCloseTimeout: time.Second * 30,
-			},
-		},
+	scenarios.StartService[MyConfig](
+		&scenarios.ServiceConfig[MyConfig]{},
 		proc)
 }
 
 func proc(appObj *app.App) error {
-	cfg, err := simplego_config.GetConfig[scenarios.ServiceConfig[SomeConfig]](appObj)
+	cfg, err := simplego_config.GetConfig[scenarios.ServiceConfig[MyConfig]](appObj)
 	if err != nil {
 		return err
 	}

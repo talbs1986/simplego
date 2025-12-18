@@ -1,93 +1,33 @@
 version: 2
 updates:
   - package-ecosystem: "github-actions"
-    directory: "/app"    
+    directories: 
+      - "/**"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "github-actions"
-    directory: "/configs"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "github-actions"
-    directory: "/goenv-configs"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "github-actions"
-    directory: "/metrics"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "github-actions"
-    directory: "/prom-metrics"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "github-actions"
-    directory: "/testkit-logger"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "github-actions"
-    directory: "/zerolog-logger"
-    schedule:
-      interval: "weekly"
+    groups:
+      gh-actions:
+        patterns:
+          - "*"
 
       
   - package-ecosystem: "gomod"
-    directory: "/app"    
+    directories: 
+      - "/**"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "gomod"
-    directory: "/configs"    
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "gomod"
-    directory: "/goenv-configs"    
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "gomod"
-    directory: "/metrics"    
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "gomod"
-    directory: "/prom-metrics"    
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "gomod"
-    directory: "/testkit-logger"    
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "gomod"
-    directory: "/zerolog-logger"    
-    schedule:
-      interval: "weekly"
-
+    groups:
+      golang-deps:
+        patterns:
+          - "*"
 
 
   - package-ecosystem: "docker"
-    directory: "/app"    
+    directories: 
+      - "/**"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/configs"    
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/goenv-configs"    
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/metrics"    
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/prom-metrics"    
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/testkit-logger"    
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/zerolog-logger"    
-    schedule:
-      interval: "weekly"
-
-
+    groups:
+      docker:
+        patterns:
+          - "*"

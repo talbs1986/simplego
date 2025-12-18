@@ -7,6 +7,24 @@ import (
 	"github.com/talbs1986/simplego/app/pkg/logger"
 )
 
+// Env defines the environment type the app is running on
+type Env string
+
+const (
+	// EnvLocal env local
+	EnvLocal Env = "local"
+	// EnvDev env ci
+	EnvCI Env = "ci"
+	// EnvDev env test
+	EnvTest Env = "test"
+	// EnvDev env dev
+	EnvDev Env = "dev"
+	// EnvStg env staging
+	EnvStg Env = "stg"
+	// EnvProd env production
+	EnvProd Env = "prd"
+)
+
 // CloseableService defines an api for a closeable service
 type CloseableService interface {
 	// Close cleans and closes resources
@@ -15,13 +33,6 @@ type CloseableService interface {
 
 // AppOpt defines the application options function
 type AppOpt func(*App)
-
-// AppConfig defines the configurations object for the App
-type AppConfig struct {
-	Name                string        `env:"APP_NAME, default=serviceA"`
-	Version             string        `env:"APP_VERSION, default=1.0.0"`
-	ServiceCloseTimeout time.Duration `env:"APP_SERVICE_CLOSE_TIMEOUT, default=30s"`
-}
 
 // App defines the application object
 type App struct {
