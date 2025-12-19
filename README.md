@@ -89,9 +89,9 @@ The current forseeable roadmap for the project
 - [x] server testkit module
 - [x] application start / stop scenarios - service
 - [x] publisher / consumer modules
-- [ ] default publisher / consumer implemenatation - nats
-- [ ] publisher / consimer testkit modules
-- [ ] application start / stop scenarios - publisher / consumer
+- [x] default publisher / consumer implemenatation - nats
+- [x] publisher / consimer testkit modules
+- [x] application start / stop scenarios - consumer
 - [ ] publisher / consumer kafka impls
 - [ ] cache module
 - [ ] default cache implementation - redis
