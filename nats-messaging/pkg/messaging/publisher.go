@@ -14,7 +14,6 @@ import (
 	simplego "github.com/talbs1986/simplego/messaging/pkg/messaging"
 )
 
-
 // NATSPublisherConfig - nats publisher config object
 type NATSPublisherConfig struct {
 	// ServiceName - unique service name

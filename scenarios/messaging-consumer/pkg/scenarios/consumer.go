@@ -13,7 +13,6 @@ import (
 type ExecutionFunc func(*app.App) error
 
 func StartConsumer[T interface{}](cfg *ConsumerConfig[T], f ExecutionFunc, msgHandlers map[string]simplego_messaging.MsgProcessor) {
-
 	var consumeFunc scenario_server.ExecutionFunc = func(a *app.App) error {
 		// init consumers
 		consumerNameBuilder := func(topic string) string {
@@ -54,5 +53,4 @@ func StartConsumer[T interface{}](cfg *ConsumerConfig[T], f ExecutionFunc, msgHa
 	}
 
 	scenario_server.StartService[T](&cfg.ServiceConfig, consumeFunc)
-
 }
