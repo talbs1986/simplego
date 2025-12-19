@@ -1,3 +1,4 @@
+[![Build generate push](https://github.com/talbs1986/simplego/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/talbs1986/simplego/actions/workflows/build.yml)
 # simplego
 
 This repository aims to reduce boiler plate code to simplify writing 
