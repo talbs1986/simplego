@@ -54,19 +54,19 @@ func StartService[T interface{}](cfg *ServiceConfig[T], f ExecutionFunc) {
 		simplego_metrics.WithMetrics(metricService),
 		simplego_server.WithServer(serverService),
 	)
-
-	// process stuff
-	if err := f(appObj); err != nil {
-		appObj.Logger.Log().Error(err, "simplego job: finished running with error")
-	} else {
-		appObj.Logger.Log().Info("simplego job: finished running successfully")
-	}
-
 	// start server
 	if err := serverService.Start(); err != nil {
 		panic(fmt.Errorf("simplego service: failed to start server, due to: %w", err))
 	}
 	appObj.Logger.Log().Info("simplego service: app started")
+
+	// register routes
+	if err := f(appObj); err != nil {
+		appObj.Logger.Log().Error(err, "simplego service: finished running with error")
+	} else {
+		appObj.Logger.Log().Info("simplego service: finished running successfully")
+	}
+
 	// gracefully shutdown
 	appObj.WaitForShutodwn()
 	appObj.Stop()

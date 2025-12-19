@@ -113,7 +113,7 @@ func (l *fmtLogLine) Error(err error, msg string) {
 	if l.err != nil {
 		actualErr = fmt.Errorf("%s , with err: %s", err, l.err)
 	}
-	imsg := fmt.Sprintf("[Error] {%v}: %s, due to: %s", l.fields, msg, actualErr)
+	imsg := fmt.Sprintf("[Error] {%v}: %s, due to: %v", l.fields, msg, actualErr)
 	fmt.Fprintln(os.Stderr, imsg)
 }
 

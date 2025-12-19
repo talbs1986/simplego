@@ -14,8 +14,6 @@ import (
 	simplego "github.com/talbs1986/simplego/messaging/pkg/messaging"
 )
 
-// NATSPublisherOpt defines the nats publisher option function
-type NATSPublisherOpt func(s *natsPublisherImpl)
 
 // NATSPublisherConfig - nats publisher config object
 type NATSPublisherConfig struct {

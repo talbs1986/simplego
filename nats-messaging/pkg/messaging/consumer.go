@@ -11,9 +11,6 @@ import (
 	simplego "github.com/talbs1986/simplego/messaging/pkg/messaging"
 )
 
-// NATSConsumerOpt defines the nats consumer option function
-type NATSConsumerOpt func(s *natsConsumerImpl)
-
 // NATSConsumerConfig - eventbus nats consumer config object
 type NATSConsumerConfig struct {
 	// ServiceName - unique service name
@@ -36,11 +33,10 @@ type natsConsumerImpl struct {
 	log             logger.ILogger
 	conn            *nats.Conn
 	stream          nats.JetStreamContext
-	subject         string
 	consumerGroup   string
 	streamName      string
 	maxPendingMsgs  int
-	sub             *nats.Subscription
+	sub             map[string]*nats.Subscription
 	upsertStreamOpt bool
 	dest            string
 }
@@ -58,6 +54,8 @@ func NewNATSConsumer(log logger.ILogger, cfg *NATSConsumerConfig, opts ...NATSCo
 		consumerGroup:  cfg.ServiceName + "-consumer",
 		maxPendingMsgs: cfg.MaxPendingMsgs,
 		dest:           cfg.Destination,
+		streamName:     cfg.NATSStreamConfig.Name,
+		sub:            map[string]*nats.Subscription{},
 	}
 
 	for _, opt := range opts {
@@ -93,28 +91,30 @@ func NewNATSConsumer(log logger.ILogger, cfg *NATSConsumerConfig, opts ...NATSCo
 }
 
 func (s *natsConsumerImpl) Consume(subject string, proc simplego.MsgProcessor) error {
-	qname := fmt.Sprintf("%s.%s.%s", s.dest, s.consumerGroup, s.subject)
+	if s.sub[subject] != nil {
+		return fmt.Errorf("simplego nats consumer: '%s' already exists for stream '%s' and subject '%s', due to: %w", s.consumerGroup, s.streamName, subject, simplego.ErrConsumerAlreadyExists)
+	}
+	qname := fmt.Sprintf("%s.%s.%s", s.dest, s.consumerGroup, subject)
 	sub, err := s.stream.QueueSubscribe(subject, qname, s.buildHandleMsg(proc), nats.Durable(s.consumerGroup),
 		nats.BindStream(s.streamName), nats.MaxAckPending(s.maxPendingMsgs))
 	if err != nil {
-		return fmt.Errorf("simplego nats consumer: '%s' failed to consume from stream '%s' and subject '%s' ,due to: %w", s.consumerGroup, s.dest, s.subject, err)
+		return fmt.Errorf("simplego nats consumer: '%s' failed to consume from stream '%s' queue: '%s' and subject '%s' ,due to: %w", s.consumerGroup, s.streamName, qname, subject, err)
 	}
-	s.sub = sub
+	s.sub[subject] = sub
 	return nil
 }
 
 func (s *natsConsumerImpl) Pull(subject string, maxMsgBatch int, proc simplego.MsgProcessor) ([]*simplego.MessageWrapper, error) {
-	// TODO create map of subjects
-	if s.sub == nil {
+	if s.sub[subject] == nil {
 		sub, err := s.stream.PullSubscribe(subject, s.consumerGroup, nats.BindStream(s.streamName), nats.MaxAckPending(s.maxPendingMsgs))
 		if err != nil {
-			return nil, fmt.Errorf("simplego nats consumer: '%s' failed to pull from stream '%s' and subject '%s' ,due to: %w", s.consumerGroup, s.dest, s.subject, err)
+			return nil, fmt.Errorf("simplego nats consumer: '%s' failed to pull from stream '%s' and subject '%s' ,due to: %w", s.consumerGroup, s.streamName, subject, err)
 		}
-		s.sub = sub
+		s.sub[subject] = sub
 	}
-	natsBatch, err := s.sub.FetchBatch(maxMsgBatch)
+	natsBatch, err := s.sub[subject].FetchBatch(maxMsgBatch)
 	if err != nil {
-		return nil, fmt.Errorf("simplego nats consumer: '%s' failed to fetch (%d) messages from stream '%s' and subject '%s',due to: %w", s.consumerGroup, maxMsgBatch, s.dest, subject, err)
+		return nil, fmt.Errorf("simplego nats consumer: '%s' failed to fetch (%d) messages from stream '%s' and subject '%s',due to: %w", s.consumerGroup, maxMsgBatch, s.streamName, subject, err)
 	}
 	batch := natsBatch.Messages()
 	msgs := make([]*simplego.MessageWrapper, len(batch))
@@ -122,7 +122,7 @@ func (s *natsConsumerImpl) Pull(subject string, maxMsgBatch int, proc simplego.M
 	for m := range batch {
 		res := s.handleMessage(proc, m)
 		if res == nil {
-			return nil, fmt.Errorf("simplego nats consumer: '%s' failed to handle message index (%d) from pull batch of stream '%s' and subject '%s'", s.consumerGroup, i, s.dest, subject)
+			return nil, fmt.Errorf("simplego nats consumer: '%s' failed to handle message index (%d) from pull batch of stream '%s' and subject '%s'", s.consumerGroup, i, s.streamName, subject)
 		}
 		msgs = append(msgs, res)
 	}

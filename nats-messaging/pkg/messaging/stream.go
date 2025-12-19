@@ -13,28 +13,32 @@ const (
 	DefaultNATSStreamDeduplicateWindow = time.Minute * 10
 	DefaultNATSStreamReplicas          = 1
 	DefaultConsumerMaxPendingMsgs      = 1000
+	DefaultNATSStreamName              = "simplego-messages"
 )
 
 var DefaultNATSStreamConfig = NATSStreamConfig{
 	RetentionMaxMsgAge: DefaultNATSStreamMsgRetention,
 	DeduplicateWindow:  DefaultNATSStreamDeduplicateWindow,
 	Replicas:           DefaultNATSStreamReplicas,
+	AllowedSubjects:    []string{"*"},
+	Name:               DefaultNATSStreamName,
+	CompressionEnabled: false,
 }
 
 // NATSStreamConfig - nats stream configuration object
 type NATSStreamConfig struct {
 	// RetentionMaxMsgAge - nats stream max msg age to keep in stream
-	RetentionMaxMsgAge time.Duration
+	RetentionMaxMsgAge time.Duration `json:"retentionMaxMsgAge"`
 	// DeduplicateWindow - nats stream dedupe window time
-	DeduplicateWindow time.Duration
+	DeduplicateWindow time.Duration `json:"deduplicateWindow"`
 	// Replicas - nats stream msg replicas
-	Replicas int
+	Replicas int `json:"replicas"`
 	// CompressionEnabled - nats stream message compression
-	CompressionEnabled bool
+	CompressionEnabled bool `json:"compressionEnabled"`
 	// AllowedSubjects - nats stream allowed subjects config
-	AllowedSubjects []string
+	AllowedSubjects []string `json:"allowedSubjects"`
 	// Name - nats stream name
-	Name string
+	Name string `json:"name"`
 }
 
 func BuildDefaultNATSStream(cfg *NATSStreamConfig, js nats.JetStreamContext) error {

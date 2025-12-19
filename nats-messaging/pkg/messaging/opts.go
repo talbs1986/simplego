@@ -4,6 +4,12 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
+// NATSConsumerOpt defines the nats consumer option function
+type NATSConsumerOpt func(s *natsConsumerImpl)
+
+// NATSPublisherOpt defines the nats publisher option function
+type NATSPublisherOpt func(s *natsPublisherImpl)
+
 // WithPublisherUpsertStream publisher option for upsert the nats stream config
 func WithPublisherUpsertStream() NATSPublisherOpt {
 	return func(s *natsPublisherImpl) {
@@ -47,8 +53,8 @@ func WithConsumerNATSStream(js nats.JetStreamContext) NATSConsumerOpt {
 }
 
 // WithConsumerNATSSubscription consumer option for setting the nats subscription
-func WithConsumerNATSSubscription(ss *nats.Subscription) NATSConsumerOpt {
+func WithConsumerNATSSubscription(subject string, ss *nats.Subscription) NATSConsumerOpt {
 	return func(s *natsConsumerImpl) {
-		s.sub = ss
+		s.sub[subject] = ss
 	}
 }

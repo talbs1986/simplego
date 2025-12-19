@@ -8,7 +8,10 @@ in order to run a simple job code that provides the basics
 
 ## contents
 ### Job
-The application which processes some functionality that suppose to shutdown afterwards
+An application which processes some functionality and then suppose to shutdown
 
 ### Service
-The application which runs until sigterm and provides a web server for interactions
+An application which runs until sigterm and provides a web server for health checks and API
+
+### Messaging Consumer
+An application which runs until sigterm and provides server for health checks and messaging consumer

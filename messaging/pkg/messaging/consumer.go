@@ -2,9 +2,12 @@ package messaging
 
 import (
 	"context"
+	"errors"
 
 	simplego "github.com/talbs1986/simplego/app/pkg/app"
 )
+
+var ErrConsumerAlreadyExists = errors.New("simplego consumer: already exists")
 
 // IConsumer - message consumer api
 type IConsumer interface {

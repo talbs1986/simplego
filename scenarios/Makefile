@@ -3,10 +3,10 @@ DIRS = $(sort $(dir $(wildcard ./*/)))
 all: deps build tidy
 
 dep: 
-	cd ${DIR} && go get -d ${MODULE}
+	cd ${DIR} && go get ${MODULE}
 
 deps:
-	cd ${DIR} && go get -v -t -d ./...
+	cd ${DIR} && go get -v -t ./...
 
 build:
 	make clean ; \
