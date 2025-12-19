@@ -1,4 +1,6 @@
 name: Build generate push
+permissions:
+  contents: read
 on: [push]
 jobs:
   list-modules:
