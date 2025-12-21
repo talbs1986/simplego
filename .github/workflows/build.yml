@@ -84,8 +84,30 @@ jobs:
           skip-build-cache: true
 
       - name: Test
-        run: make test DIR=${{ matrix.dir }}
+        run: make test_cover DIR=${{ matrix.dir }} 
+      
+        # Calculate percentage and save to env var
+      - name: Store coverage
+        run: cd ${{ matrix.dir }} && echo "COVERAGE=$(go tool cover -func=../.build/${{ matrix.dir }}.coverage.out | grep total | awk '{print $3}' | sed 's/%//')" >> $GITHUB_ENV && cd ..
+
+      - name: Determine Badge Color
+        run: |
+          if [ ${{ env.COVERAGE }} -ge 90 ]; then echo "BADGE_COLOR=green" >> $GITHUB_ENV
+          elif [ ${{ env.COVERAGE }} -ge 70 ]; then echo "BADGE_COLOR=yellow" >> $GITHUB_ENV
+          else echo "BADGE_COLOR=red" >> $GITHUB_ENV; fi
         
+       # Update Gist for coverage badge
+      - name: Coverage badge 
+        uses: schneegans/dynamic-badges-action@v1.2.0
+        with:
+          gist_id: ${{ secrets.DYNAMIC_TEST_COVERAGE_GIST_ID }}
+          badge_name: ${{ matrix.dir }}-coverage.json
+          label: 'Module ${{ matrix.dir }} Coverage'
+          message: ${{ env.COVERAGE }}%
+          color: ${{ env.BADGE_COLOR }}
+          token: ${{ secrets.GIST_PAT }}
+        
+
   # this step is needed for GH step validation to verify all build steps succeeded
   build-success:
     runs-on: ubuntu-latest

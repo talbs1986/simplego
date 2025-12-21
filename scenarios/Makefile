@@ -11,21 +11,23 @@ deps:
 build:
 	make clean ; \
 	cd $(DIR) ; \
-	tmp=$(DIR) ; \
 	out=$(DIR:./%/=%) ; \
 	go build -v -o ../../.build/"$$out" cmd/main.go ; \
 	cd ..
 
 clean:
-	tmp="$(DIR)" ; \
-	out=$(tmp:./%/=%) ; \
-	if [ -f "$$out" ] ; then rm ../../.build/"$$out" ; fi 
+	out=$(DIR:./%/=%) ; echo testing $${out} ; \
+	if [ -f "../.build/$${out}" ] ; then echo deleting ".build/$${out}.coverage.out" ; rm ../.build/"$$out" ; fi ; \
+	if [ -f "../.build/$${out}.scenarios.coverage.out" ] ; then echo deleting ".build/$${out}.scenarios.coverage.out" ; rm ../.build/"$${out}.scenarios.coverage.out" ; fi 
 
 tidy:
 	cd $(DIR) && go mod tidy
 
 test:
 	cd $(DIR) && go test -v ./... -count=1
+
+test_cover:
+	cd $(DIR) && go test -covermode=count -coverprofile=../../.build/$${DIR%/}.scenarios.coverage.out -v ./... -count=1
 
 lint:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
@@ -48,6 +50,13 @@ test_all:
 		fi \
 	done
 
+test_cover_all:
+	for currDir in $(DIRS) ; do \
+		if [ "$$currDir" != "./" ] ; then \
+    		make test_cover DIR=$$currDir ; \
+		fi \
+	done
+
 lint_fix_all:
 	for currDir in $(DIRS) ; do \
 		if [ "$$currDir" != "./" ] ; then \
@@ -55,5 +64,12 @@ lint_fix_all:
 		fi \
 	done
 
-.PHONY: all deps build tidy lint dev_all test_all dep lint_fix_all lint_fix clean
+clean_all:
+	for currDir in $(DIRS) ; do \
+		if [ "$$currDir" != "./" ] ; then \
+    		make clean DIR=$$currDir ; \
+		fi \
+	done
+
+.PHONY: all deps build tidy lint dev_all test_all dep lint_fix_all lint_fix clean test_cover test_cover_all clean_all
 
