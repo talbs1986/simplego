@@ -98,14 +98,14 @@ jobs:
         
        # Update Gist for coverage badge
       - name: Coverage badge 
-        uses: schneegans/dynamic-badges-action@v1.2.0
+        uses: schneegans/dynamic-badges-action@v1.7.0
         with:
-          gist_id: ${{ secrets.DYNAMIC_TEST_COVERAGE_GIST_ID }}
-          badge_name: ${{ matrix.dir }}-coverage.json
+          gistID: ${{ secrets.DYNAMIC_TEST_COVERAGE_GIST_ID }}
+          filename: ${{ matrix.dir }}-coverage.json
           label: 'Module ${{ matrix.dir }} Coverage'
           message: ${{ env.COVERAGE }}%
           color: ${{ env.BADGE_COLOR }}
-          token: ${{ secrets.GIST_PAT }}
+          auth: ${{ secrets.GIST_PAT }}
         
   # this step is needed for GH step validation to verify all build steps succeeded
   build-success:
