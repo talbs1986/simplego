@@ -1,4 +1,5 @@
 [![Build generate push](https://github.com/talbs1986/simplego/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/talbs1986/simplego/actions/workflows/build.yml)
+[![Coverage Badge](img.shields.io)](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/app-coverage.json)
 # simplego
 
 This repository aims to reduce boiler plate code to simplify writing 
