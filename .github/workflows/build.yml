@@ -88,7 +88,10 @@ jobs:
       
         # Calculate percentage and save to env var
       - name: Store coverage
-        run: cd ${{ matrix.dir }} && echo "COVERAGE=$(go tool cover -func=../.build/${{ matrix.dir }}.coverage.out | grep total | awk '{print $3}' | sed 's/%//')" >> $GITHUB_ENV && cd ..
+        run: |
+          if [ "${{ matrix.dir }}" != "scenarios" ]; then cd ${{ matrix.dir }} && echo "COVERAGE=$(go tool cover -func=../../.build/${{ matrix.dir }}.scenarios.coverage.out | grep total | awk '{print $3}' | sed 's/%//')" >> $GITHUB_ENV && cd ..
+          else cd ${{ matrix.dir }} && echo "COVERAGE=$(go tool cover -func=../.build/${{ matrix.dir }}.coverage.out | grep total | awk '{print $3}' | sed 's/%//')" >> $GITHUB_ENV && cd ..
+          fi
 
       - name: Determine Badge Color
         run: |
