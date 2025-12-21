@@ -16,7 +16,7 @@ build:
 	cd ..
 
 clean:
-	out=$(DIR:./%/=%) ; echo testing $${out} ; \
+	out=$(DIR:./%/=%) ; \
 	if [ -f "../.build/$${out}" ] ; then echo deleting ".build/$${out}.coverage.out" ; rm ../.build/"$$out" ; fi ; \
 	if [ -f "../.build/$${out}.scenarios.coverage.out" ] ; then echo deleting ".build/$${out}.scenarios.coverage.out" ; rm ../.build/"$${out}.scenarios.coverage.out" ; fi 
 
@@ -27,7 +27,8 @@ test:
 	cd $(DIR) && go test -v ./... -count=1
 
 test_cover:
-	cd $(DIR) && go test -covermode=count -coverprofile=../../.build/$${DIR%/}.scenarios.coverage.out -v ./... -count=1
+	out=$(DIR:./%/=%) ; \
+	cd $(DIR) && go test -covermode=count -coverprofile=../../.build/$${out}.scenarios.coverage.out -v ./... -count=1
 
 lint:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest

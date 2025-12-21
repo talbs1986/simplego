@@ -64,9 +64,9 @@ TBD
 The [messaging module](messaging) is a simple lib to provide a message publisher and consumer
 The module aims to provide simple api and models to publish and consume messages by different impls
 #### impls
-* [NATS](nats-messaging)
+* [NATS](nats-messaging) [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/nats-messaging-coverage.json)](img.shields.io)
 * [Kafka (TBD)](kafka-messaging)
-* [TestKit](testkit-messaging)
+* [TestKit](testkit-messaging) [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/testkit-messaging-coverage.json)](img.shields.io)
 
 ## roadmap
 The current forseeable roadmap for the project 
