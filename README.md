@@ -1,5 +1,4 @@
 [![Build generate push](https://github.com/talbs1986/simplego/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/talbs1986/simplego/actions/workflows/build.yml)
-[![Coverage Badge](img.shields.io)](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/app-coverage.json)
 # simplego
 
 This repository aims to reduce boiler plate code to simplify writing 
@@ -11,23 +10,20 @@ The project is built as a mono repo multi module in order to enable quick plug a
 Each module will contain teskit module in order to encourage dependency injection while building application and allowing code testability.
 
 ## contents
-### App
+### App [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/app-coverage.json)](img.shields.io)
 The application module is the root object which will provide
 the developer with the basic functionalities 
 and will be extended by each simplego module 
  
 ### Scenarios
-#### job
+#### job [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/job-app-coverage.json)](img.shields.io)
 a scenario of a job that starts by initializing metrics pusher stops after the executed code
 
-#### service
+#### service [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/service-app-coverage.json)](img.shields.io)
 a scenario of a service that starts by initializing a server which will log, observe and handle incoming requests
 the scenario will stop at sigterm
 
-#### publisher
-TBD
-
-#### consumer
+#### consumer [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/messaging-consumer-coverage.json)](img.shields.io)
 TBD
 
 ### Logger
@@ -35,28 +31,28 @@ The [logger module](app/pkg/logger) is a simple asbstraction of a logger interfa
 The module aims to provide consistent usage of a logger of different impls
 #### impls
 * [FMT](app/pkg/fmt)
-* [Zerolog](zerolog-logger)
-* [TestKit](testkit-logger)
+* [Zerolog](zerolog-logger) [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/zerolog-logger-coverage.json)](img.shields.io)
+* [TestKit](testkit-logger) [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/testkit-logger-coverage.json)](img.shields.io)
 
 ### Configs
 The [configs module](configs) is a simple lib to provide app configuraiton object injection.
 The module aims to provide simple configuration objects usage in an app of different impls
 #### impls
-* [GoEnv](goenv-configs)
+* [GoEnv](goenv-configs) [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/goenv-configs-coverage.json)](img.shields.io)
 
 ### Metrics
 The [metrics module](metrics) is a simple lib to provide app metrics.
 The module aims to provide simple api and models to support a push / get metrics objects of different impls
 #### impls
-* [Prometheus](prom-metrics)
-* [TestKit](testkit-metrics)
+* [Prometheus](prom-metrics) [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/prom-metrics-coverage.json)](img.shields.io)
+* [TestKit](testkit-metrics) [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/testkit-metrics-coverage.json)](img.shields.io)
 
 ### Server
 The [server module](server) is a simple lib to provide a web server
 The module aims to provide simple api and models to registering routes and starting to listen for request by different impls
 #### impls
-* [Chi](chi-server)
-* [TestKit](testkit-server)
+* [Chi](chi-server) [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/chi-server-coverage.json)](img.shields.io)
+* [TestKit](testkit-server) [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/testkit-server-coverage.json)](img.shields.io)
 
 ### Trace
 TBD
