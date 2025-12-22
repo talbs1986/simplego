@@ -77,7 +77,16 @@ jobs:
       - name: Build
         run: make all DIR=${{ matrix.dir }}
 
+        # Cache the golangci-lint binary
+      - name: Cache golangci-lint
+        id: cache-lint
+        uses: actions/cache@v4
+        with:
+          path: ~/go/bin/golangci-lint
+          key: ${{ runner.os }}-golangci-lint
+          
       - name: Lint install
+        if: steps.cache-lint.outputs.cache-hit != 'true'
         run: make lint_install
 
       - name: Lint
