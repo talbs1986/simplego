@@ -100,7 +100,7 @@ jobs:
         # if: ${{ github.ref == 'main' }}
         shell: bash
         env:
-          GIST_PAT: ${{ secrets.GIST_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GIST_PAT }}
           GIST_ID: ${{ secrets.DYNAMIC_TEST_COVERAGE_GIST_ID }}
         run: |
           DIR="${{ matrix.dir }}"
