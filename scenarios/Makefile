@@ -31,7 +31,7 @@ test_cover:
 	cd $(DIR) && go test -covermode=count -coverprofile=../../.build/$${DIR}.scenarios.coverage.out -v ./... -count=1
 
 lint_install:
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
 
 lint:
 	cd $(DIR) && golangci-lint run

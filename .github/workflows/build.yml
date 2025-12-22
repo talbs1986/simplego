@@ -78,18 +78,11 @@ jobs:
         run: make all DIR=${{ matrix.dir }}
 
       - name: Lint install
-        uses: golangci/golangci-lint-action@v6
-        with:
-          version: latest
-          install-only: true
-          # working-directory: ${{ matrix.dir }}
-          # args: --timeout 5m
-          # skip-pkg-cache: true
-          # skip-build-cache: true
+        run: make lint_install
 
       - name: Lint
         run: make lint DIR=${{ matrix.dir }} 
-        
+
       - name: Test
         run: make test_cover DIR=${{ matrix.dir }} 
       

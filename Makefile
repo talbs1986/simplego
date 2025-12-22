@@ -48,7 +48,7 @@ test_cover:
 	)
 
 lint_install:
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
 
 lint:
 	$(call run_or_scenarios, \
@@ -90,7 +90,7 @@ test_cover_all:
 		$(MAKE) test_cover DIR=$$currDir; \
 	done
 
-lint_fix_all:
+lint_all:
 	for currDir in $(DIRS); do \
 		$(MAKE) lint DIR=$$currDir; \
 	done
