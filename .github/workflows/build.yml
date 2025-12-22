@@ -88,8 +88,9 @@ jobs:
       
         # Calculate percentage and save to env var
       - name: Store coverage
-        run: |
-          if [ "${{ matrix.dir }}" != "scenarios" ]; then cd ${{ matrix.dir }} && echo "COVERAGE=$(go tool cover -func=../../.build/${{ matrix.dir }}.scenarios.coverage.out | grep total | awk '{print $3}' | sed 's/%//')" >> $GITHUB_ENV && cd ..
+        run: | 
+          DIR="${{ matrix.dir }}"
+          if [ $DIR == scenarios* ]; then cd ${{ matrix.dir }} && echo "COVERAGE=$(go tool cover -func=../../.build/${DIR#scenarios/}.scenarios.coverage.out | grep total | awk '{print $3}' | sed 's/%//')" >> $GITHUB_ENV && cd ..
           else cd ${{ matrix.dir }} && echo "COVERAGE=$(go tool cover -func=../.build/${{ matrix.dir }}.coverage.out | grep total | awk '{print $3}' | sed 's/%//')" >> $GITHUB_ENV && cd ..
           fi
 
@@ -118,4 +119,3 @@ jobs:
     steps:
       - name: Success
         run: echo ok
-        
