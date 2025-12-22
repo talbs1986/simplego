@@ -95,30 +95,55 @@ jobs:
       - name: Test
         run: make test_cover DIR=${{ matrix.dir }} 
       
-        # Calculate percentage and save to env var
-      - name: Store coverage
-        run: | 
-          DIR="${{ matrix.dir }}"
-          if [ $DIR == scenarios* ]; then cd ${{ matrix.dir }} && echo "COVERAGE=$(go tool cover -func=../../.build/${DIR#scenarios/}.scenarios.coverage.out | grep total | awk '{print $3}' | sed 's/%//')" >> $GITHUB_ENV && cd ..
-          else cd ${{ matrix.dir }} && echo "COVERAGE=$(go tool cover -func=../.build/${{ matrix.dir }}.coverage.out | grep total | awk '{print $3}' | sed 's/%//')" >> $GITHUB_ENV && cd ..
-          fi
-
-      - name: Determine Badge Color
+      - name: Process Coverage Badges
+        # if: ${{ github.ref == 'main' }}
+        shell: bash
+        env:
+          GIST_PAT: ${{ secrets.GIST_PAT }}
+          GIST_ID: ${{ secrets.DYNAMIC_TEST_COVERAGE_GIST_ID }}
         run: |
-          if [ ${{ env.COVERAGE }} -ge 90 ]; then echo "BADGE_COLOR=green" >> $GITHUB_ENV
-          elif [ ${{ env.COVERAGE }} -ge 70 ]; then echo "BADGE_COLOR=yellow" >> $GITHUB_ENV
-          else echo "BADGE_COLOR=red" >> $GITHUB_ENV; fi
-        
-       # Update Gist for coverage badge
-      - name: Coverage badge 
-        uses: schneegans/dynamic-badges-action@v1.7.0
-        with:
-          gistID: ${{ secrets.DYNAMIC_TEST_COVERAGE_GIST_ID }}
-          filename: ${{ matrix.dir }}-coverage.json
-          label: 'Module ${{ matrix.dir }} Coverage'
-          message: ${{ env.COVERAGE }}%
-          color: ${{ env.BADGE_COLOR }}
-          auth: ${{ secrets.GIST_PAT }}
+          DIR="${{ matrix.dir }}"
+  
+          # Function to process a single module's coverage and badge
+          process_coverage() {
+            local target_dir=$1
+            local coverage_file=$2
+            local label_name=$3
+            local filename=$4
+  
+            # 1. Extract Coverage
+            if [ -f "$coverage_file" ]; then
+              local cov=$(go tool cover -func="$coverage_file" | grep total | awk '{print $3}' | sed 's/%//')
+              echo "Coverage for $label_name: $cov%"
+  
+              # 2. Determine Color
+              local color="red"
+              if (( $(echo "$cov >= 90" | bc -l) )); then color="green"
+              elif (( $(echo "$cov >= 70" | bc -l) )); then color="yellow"
+              fi
+  
+              # 3. Update Gist using the Badge Action logic via Curl (or simple JSON post)
+              # Since the Action step can't be looped, we manually create the JSON for the Gist
+              # If you prefer the Action, see the alternative below.
+              echo "{\"schemaVersion\":1,\"label\":\"$label_name\",\"message\":\"$cov%\",\"color\":\"$color\"}" > badge.json
+                
+              # Use GitHub CLI (installed on all runners) to update the gist
+              gh gist edit "$GIST_ID" -f "$filename=badge.json"
+            else
+              echo "Warning: Coverage file $coverage_file not found."
+            fi
+          }
+  
+          if [[ "$DIR" == "scenarios" ]]; then
+            # Loop through all subdirectories in scenarios
+            for sub in scenarios/*/; do
+              sub_name=$(basename "$sub")
+              process_coverage "scenarios/$sub_name" ".build/${sub_name}.scenarios.coverage.out" "Module $sub_name" "$sub_name-scenarios-coverage.json"
+            done
+          else
+            # Standard root module
+            process_coverage "$DIR" ".build/${DIR}.coverage.out" "Module $DIR" "$DIR-coverage.json"
+          fi
         
   # this step is needed for GH step validation to verify all build steps succeeded
   build-success:
