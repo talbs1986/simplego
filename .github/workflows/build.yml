@@ -114,9 +114,10 @@ jobs:
             local filename=$4
             echo "target_dir: '$target_dir' , coverage_file: '$coverage_file' , label_name: '$label_name' , filename: '$filename'"
   
+            cd $target_dir
+
             # 1. Extract Coverage
             if [ -f "$coverage_file" ]; then
-              cd $target_dir
 
               local cov=$(go tool cover -func="$coverage_file" | grep total | awk '{print $3}' | tr -dc '0-9.')
               echo "Coverage for $label_name: $cov%"
@@ -135,10 +136,11 @@ jobs:
               # Use GitHub CLI (installed on all runners) to update the gist
               gh gist edit "$GIST_ID" -f "$filename=badge.json"
 
-              cd $ROOT_DIR
             else
               echo "Warning: Coverage file $coverage_file not found."
             fi
+
+            cd $ROOT_DIR
           }
   
           # Run tests with coverage
@@ -148,7 +150,7 @@ jobs:
             # Loop through all subdirectories in scenarios
             for sub in scenarios/*/; do
               sub_name=$(basename "$sub")
-              process_coverage "$sub_name" "../../.build/${sub_name}.scenarios.coverage.out" "Module $sub_name" "$sub_name-scenarios-coverage.json"
+              process_coverage "scenarios/$sub_name" "../../.build/${sub_name}.scenarios.coverage.out" "Module $sub_name" "$sub_name-scenarios-coverage.json"
             done
           else
             # Standard root module
