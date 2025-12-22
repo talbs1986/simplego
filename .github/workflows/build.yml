@@ -43,7 +43,10 @@ jobs:
           fi
 
           # Format modules as a JSON array for the matrix
-          dir=$(echo "$modules" | sed 's|^\./||' | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0)) | unique')
+          # 1. sed: remove leading './'
+          # 2. cut: extract everything before the first '/' (the root folder)
+          # 3. jq: filter out empty strings and ensure unique values
+          dir=$(echo "$modules" | sed 's|^\./||' | cut -d'/' -f1 | jq -R -s -c 'split("\n") | map(select(length > 0)) | unique')
           
           echo "dir=$dir" >> $GITHUB_OUTPUT
           echo "Selected modules: $dir"
