@@ -103,6 +103,7 @@ jobs:
           GIST_ID: ${{ secrets.DYNAMIC_TEST_COVERAGE_GIST_ID }}
         run: |
           DIR="${{ matrix.dir }}"
+          ROOT_DIR="$(pwd)"
   
           # Function to process a single module's coverage and badge
           process_coverage() {
@@ -113,6 +114,8 @@ jobs:
   
             # 1. Extract Coverage
             if [ -f "$coverage_file" ]; then
+              cd $target_dir
+
               local cov=$(go tool cover -func="$coverage_file" | grep total | awk '{print $3}' | sed 's/%//')
               echo "Coverage for $label_name: $cov%"
   
@@ -129,6 +132,8 @@ jobs:
                 
               # Use GitHub CLI (installed on all runners) to update the gist
               gh gist edit "$GIST_ID" -f "$filename=badge.json"
+
+              cd $ROOT_DIR
             else
               echo "Warning: Coverage file $coverage_file not found."
             fi
