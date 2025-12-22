@@ -134,7 +134,7 @@ jobs:
               echo "{\"schemaVersion\":1,\"label\":\"$label_name\",\"message\":\"$cov%\",\"color\":\"$color\"}" > badge.json
                 
               # Use GitHub CLI (installed on all runners) to update the gist
-              gh gist edit "$GIST_ID" -f "$filename" badge.json
+              gh gist edit "$GIST_ID" -a "$filename" badge.json
 
             else
               echo "Warning: Coverage file $coverage_file not found."
