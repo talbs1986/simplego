@@ -144,7 +144,7 @@ jobs:
             # Loop through all subdirectories in scenarios
             for sub in scenarios/*/; do
               sub_name=$(basename "$sub")
-              process_coverage "scenarios/$sub_name" "../../.build/${sub_name}.scenarios.coverage.out" "Module $sub_name" "$sub_name-scenarios-coverage.json"
+              process_coverage "$sub_name" "../../.build/${sub_name}.scenarios.coverage.out" "Module $sub_name" "$sub_name-scenarios-coverage.json"
             done
           else
             # Standard root module
