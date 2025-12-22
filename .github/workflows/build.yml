@@ -134,7 +134,22 @@ jobs:
               echo "{\"schemaVersion\":1,\"label\":\"$label_name\",\"message\":\"$cov%\",\"color\":\"$color\"}" > badge.json
                 
               # Use GitHub CLI (installed on all runners) to update the gist
-              gh gist edit "$GIST_ID" -a "$filename" badge.json
+              MAX_RETRIES=3
+              RETRY_COUNT=0
+              SUCCESS=false
+              
+              # Retry Logic
+              until $SUCCESS || [ $RETRY_COUNT -eq $MAX_RETRIES ]; do
+                # Attempt to update the Gist
+                if gh gist edit "$GIST_ID" -a badge.json -f "$filename"; then
+                  echo "Successfully updated Gist for $filename"
+                  SUCCESS=true
+                else
+                  RETRY_COUNT=$((RETRY_COUNT + 1))
+                  echo "Attempt $RETRY_COUNT failed. Retrying in 2 seconds..."
+                  sleep 2
+                fi
+              done
 
             else
               echo "Warning: Coverage file $coverage_file not found."
