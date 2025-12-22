@@ -1,6 +1,8 @@
 module github.com/talbs1986/simplego/scenarios/messaging-consumer
 
-go 1.24
+go 1.24.0
+
+toolchain go1.24.11
 
 replace github.com/talbs1986/simplego/goenv-configs => ../../goenv-configs
 
@@ -57,7 +59,7 @@ require (
 	github.com/talbs1986/simplego/server v0.0.0-20240528101415-c854be60989c // indirect
 	github.com/talbs1986/simplego/zerolog-logger v0.0.0-00010101000000-000000000000 // indirect
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
-	golang.org/x/crypto v0.18.0 // indirect
-	golang.org/x/sys v0.35.0 // indirect
-	google.golang.org/protobuf v1.36.8 // indirect
+	golang.org/x/crypto v0.43.0 // indirect
+	golang.org/x/sys v0.39.0 // indirect
+	google.golang.org/protobuf v1.36.10 // indirect
 )
