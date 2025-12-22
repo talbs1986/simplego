@@ -47,9 +47,14 @@ test_cover:
 			-v ./... -count=1 \
 	)
 
-lint:
+lint_install:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-	cd $(DIR) && golangci-lint run
+
+lint:
+	$(call run_or_scenarios, \
+		lint_all, \
+		cd $(DIR) && golangci-lint run \
+	)
 
 lint_fix:
 	$(call run_or_scenarios, \
@@ -87,6 +92,11 @@ test_cover_all:
 
 lint_fix_all:
 	for currDir in $(DIRS); do \
+		$(MAKE) lint DIR=$$currDir; \
+	done
+
+lint_fix_all:
+	for currDir in $(DIRS); do \
 		$(MAKE) lint_fix DIR=$$currDir; \
 	done
 
@@ -95,5 +105,5 @@ clean_all:
 		$(MAKE) clean DIR=$$currDir; \
 	done
 
-.PHONY: all deps build tidy lint dev_all test_all dep lint_fix_all lint_fix \
+.PHONY: all deps build tidy lint dev_all test_all dep lint_fix_all lint_fix lint_all \
 	list_dirs test_cover test_cover_all clean_all clean

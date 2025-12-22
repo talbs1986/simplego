@@ -30,8 +30,10 @@ test:
 test_cover:
 	cd $(DIR) && go test -covermode=count -coverprofile=../../.build/$${DIR}.scenarios.coverage.out -v ./... -count=1
 
-lint:
+lint_install:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
+lint:
 	cd $(DIR) && golangci-lint run
 
 lint_fix:
@@ -56,6 +58,11 @@ test_cover_all:
     	make test_cover DIR=$$currDir ; \
 	done
 
+lint_all:
+	for currDir in $(DIRS) ; do \
+    	make lint DIR=$$currDir ; \
+	done
+
 lint_fix_all:
 	for currDir in $(DIRS) ; do \
     	make lint_fix DIR=$$currDir ; \
@@ -66,5 +73,5 @@ clean_all:
     	make clean DIR=$$currDir ; \
 	done
 
-.PHONY: all deps build tidy lint dev_all test_all dep lint_fix_all lint_fix clean test_cover test_cover_all clean_all list_dirs
+.PHONY: all deps build tidy lint dev_all test_all dep lint_all lint_fix_all lint_fix clean test_cover test_cover_all clean_all list_dirs
 

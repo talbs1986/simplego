@@ -66,7 +66,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v6
         with:
-          go-version: "^1.20"
+          go-version: "1.24"
           cache-dependency-path: ${{ matrix.dir }}/go.mod
           # Force a fresh cache if [run-all] is present (optional)
           cache: ${{ !contains(github.event.head_commit.message, '[run-all]') }}
@@ -77,15 +77,19 @@ jobs:
       - name: Build
         run: make all DIR=${{ matrix.dir }}
 
-      - name: Lint
+      - name: Lint install
         uses: golangci/golangci-lint-action@v6
         with:
           version: latest
-          working-directory: ${{ matrix.dir }}
-          args: --timeout 5m
-          skip-pkg-cache: true
-          skip-build-cache: true
+          install-only: true
+          # working-directory: ${{ matrix.dir }}
+          # args: --timeout 5m
+          # skip-pkg-cache: true
+          # skip-build-cache: true
 
+      - name: Lint
+        run: make lint DIR=${{ matrix.dir }} 
+        
       - name: Test
         run: make test_cover DIR=${{ matrix.dir }} 
       
