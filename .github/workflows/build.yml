@@ -117,7 +117,7 @@ jobs:
             if [ -f "$coverage_file" ]; then
               cd $target_dir
 
-              local cov=$(go tool cover -func="$coverage_file" | grep total | awk '{print $3}' | sed 's/%//')
+              local cov=$(go tool cover -func="$coverage_file" | grep total | awk '{print $3}' | tr -dc '0-9.')
               echo "Coverage for $label_name: $cov%"
   
               # 2. Determine Color
