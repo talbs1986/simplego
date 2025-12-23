@@ -96,8 +96,8 @@ jobs:
         if: ${{ github.ref != 'main' }}
         run: make test DIR=${{ matrix.dir }} 
       
-      - name: Test Process Coverage Badges
-        # if: ${{ github.ref == 'main' }}
+      - name: Test and Coverage
+        if: ${{ github.ref == 'main' }}
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GIST_PAT }}
