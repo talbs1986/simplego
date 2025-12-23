@@ -38,22 +38,22 @@ func (l *TestkitLog) WithErr(err error) simplego.LogLine {
 	return l
 }
 func (l *TestkitLog) Trace(msg string, args ...any) {
-	l.checkErrAndLogMsg(simplego.LogLevelTrace, l.Err, msg, args)
+	l.checkErrAndLogMsg(simplego.LogLevelTrace, l.Err, msg, args...)
 }
 func (l *TestkitLog) Debug(msg string, args ...any) {
-	l.checkErrAndLogMsg(simplego.LogLevelDebug, l.Err, msg, args)
+	l.checkErrAndLogMsg(simplego.LogLevelDebug, l.Err, msg, args...)
 }
 func (l *TestkitLog) Info(msg string, args ...any) {
-	l.checkErrAndLogMsg(simplego.LogLevelInfo, l.Err, msg, args)
+	l.checkErrAndLogMsg(simplego.LogLevelInfo, l.Err, msg, args...)
 }
 func (l *TestkitLog) Warn(err error, msg string, args ...any) {
-	l.checkErrAndLogMsg(simplego.LogLevelWarn, &err, msg, args)
+	l.checkErrAndLogMsg(simplego.LogLevelWarn, &err, msg, args...)
 }
 func (l *TestkitLog) Error(err error, msg string, args ...any) {
-	l.checkErrAndLogMsg(simplego.LogLevelError, &err, msg, args)
+	l.checkErrAndLogMsg(simplego.LogLevelError, &err, msg, args...)
 }
 func (l *TestkitLog) Fatal(err error, msg string, args ...any) {
-	l.checkErrAndLogMsg(simplego.LogLevelFatal, &err, msg, args)
+	l.checkErrAndLogMsg(simplego.LogLevelFatal, &err, msg, args...)
 }
 
 func (l *TestkitLog) checkErrAndLogMsg(lvl simplego.LogLevel, err *error, msg string, args ...any) {
