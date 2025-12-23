@@ -37,7 +37,7 @@ jobs:
             modules=$(for changed_dir in ${{ steps.changed-files.outputs.all_changed_files }}; do
               # Ensure the directory exists before running go list
               if [ -d "./$changed_dir" ]; then
-                echo $(cd ./nats-messaging/pkg/messaging && basename $(go list -f '{{.Module.Dir}}' 2>/dev/null))
+                echo $(cd ./$changed_dir && basename $(go list -f '{{.Module.Dir}}' 2>/dev/null))
               fi
             done | sort -u)
           fi

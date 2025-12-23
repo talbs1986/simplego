@@ -1,6 +1,8 @@
 package logger
 
 import (
+	"fmt"
+
 	"github.com/rs/zerolog"
 	simplego "github.com/talbs1986/simplego/app/pkg/logger"
 )
@@ -34,30 +36,34 @@ func (l *zerologLog) WithErr(err error) simplego.LogLine {
 	l.err = &err
 	return l
 }
-func (l *zerologLog) Trace(msg string) {
-	l.checkErrAndLogMsg(l.parent.underlying.Trace(), l.err, msg)
+func (l *zerologLog) Trace(msg string, args ...any) {
+	l.checkErrAndLogMsg(l.parent.underlying.Trace(), l.err, msg, args...)
 }
-func (l *zerologLog) Debug(msg string) {
-	l.checkErrAndLogMsg(l.parent.underlying.Debug(), l.err, msg)
+func (l *zerologLog) Debug(msg string, args ...any) {
+	l.checkErrAndLogMsg(l.parent.underlying.Debug(), l.err, msg, args...)
 }
-func (l *zerologLog) Info(msg string) {
-	l.checkErrAndLogMsg(l.parent.underlying.Info(), l.err, msg)
+func (l *zerologLog) Info(msg string, args ...any) {
+	l.checkErrAndLogMsg(l.parent.underlying.Info(), l.err, msg, args...)
 }
-func (l *zerologLog) Warn(err error, msg string) {
-	l.checkErrAndLogMsg(l.parent.underlying.Warn(), &err, msg)
+func (l *zerologLog) Warn(err error, msg string, args ...any) {
+	l.checkErrAndLogMsg(l.parent.underlying.Warn(), &err, msg, args...)
 }
-func (l *zerologLog) Error(err error, msg string) {
-	l.checkErrAndLogMsg(l.parent.underlying.Error(), &err, msg)
+func (l *zerologLog) Error(err error, msg string, args ...any) {
+	l.checkErrAndLogMsg(l.parent.underlying.Error(), &err, msg, args...)
 }
-func (l *zerologLog) Fatal(err error, msg string) {
-	l.checkErrAndLogMsg(l.parent.underlying.Fatal(), &err, msg)
+func (l *zerologLog) Fatal(err error, msg string, args ...any) {
+	l.checkErrAndLogMsg(l.parent.underlying.Fatal(), &err, msg, args...)
 }
 
-func (l *zerologLog) checkErrAndLogMsg(underlyingEvent *zerolog.Event, err *error, msg string) {
+func (l *zerologLog) checkErrAndLogMsg(underlyingEvent *zerolog.Event, err *error, msg string, args ...any) {
 	underlyingEvent.Fields(map[string]interface{}(l.fields))
 	if err != nil {
 		l.err = err
 		underlyingEvent = underlyingEvent.Err(*l.err)
 	}
-	underlyingEvent.Msg(msg)
+	actualMsg := msg
+	if len(args) > 0 {
+		actualMsg = fmt.Sprintf(msg, args...)
+	}
+	underlyingEvent.Msg(actualMsg)
 }

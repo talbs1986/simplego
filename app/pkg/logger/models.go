@@ -16,15 +16,15 @@ type LogLine interface {
 	// WithErr appends an error to the log line
 	WithErr(err error) LogLine
 	// Trace writes a trace log line
-	Trace(msg string)
+	Trace(msg string, args ...any)
 	// Debug writes a debug log line
-	Debug(msg string)
+	Debug(msg string, args ...any)
 	// Info writes an info log line
-	Info(msg string)
+	Info(msg string, args ...any)
 	// Warn writes a warn log line
-	Warn(err error, msg string)
+	Warn(err error, msg string, args ...any)
 	// Error writes an error log line
-	Error(err error, msg string)
+	Error(err error, msg string, args ...any)
 	// Fatal writes a fatal log line
-	Fatal(err error, msg string)
+	Fatal(err error, msg string, args ...any)
 }

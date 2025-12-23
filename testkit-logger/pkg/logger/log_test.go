@@ -65,7 +65,7 @@ func TestTrace(t *testing.T) {
 
 	expectedMsg := "some kind of msg"
 	now := time.Now()
-	logLine.Trace(expectedMsg)
+	logLine.Trace("%s", expectedMsg)
 	assert.LessOrEqual(t, now.Unix(), logLine.Time.Unix())
 	assert.Equal(t, logLine.Msg, expectedMsg)
 	assert.Equal(t, logLine.Err, &expectedErr)
@@ -85,7 +85,7 @@ func TestDebug(t *testing.T) {
 
 	expectedMsg := "some kind of msg"
 	now := time.Now()
-	logLine.Debug(expectedMsg)
+	logLine.Debug("%s", expectedMsg)
 	assert.LessOrEqual(t, now.Unix(), logLine.Time.Unix())
 	assert.Equal(t, logLine.Msg, expectedMsg)
 	assert.Equal(t, logLine.Err, &expectedErr)
@@ -105,7 +105,7 @@ func TestInfo(t *testing.T) {
 
 	expectedMsg := "some kind of msg"
 	now := time.Now()
-	logLine.Info(expectedMsg)
+	logLine.Info("%s", expectedMsg)
 	assert.LessOrEqual(t, now.Unix(), logLine.Time.Unix())
 	assert.Equal(t, logLine.Msg, expectedMsg)
 	assert.Equal(t, logLine.Err, &expectedErr)
@@ -127,7 +127,7 @@ func TestWarnWithErrShouldOverrideCurrentErr(t *testing.T) {
 
 	expectedMsg := "some kind of msg"
 	now := time.Now()
-	logLine.Warn(expectedErr, expectedMsg)
+	logLine.Warn(expectedErr, "%s", expectedMsg)
 	assert.LessOrEqual(t, now.Unix(), logLine.Time.Unix())
 	assert.Equal(t, logLine.Msg, expectedMsg)
 	assert.Equal(t, &expectedErr, logLine.Err)
@@ -149,7 +149,7 @@ func TestErrorWithErrShouldOverrideCurrentErr(t *testing.T) {
 
 	expectedMsg := "some kind of msg"
 	now := time.Now()
-	logLine.Error(expectedErr, expectedMsg)
+	logLine.Error(expectedErr, "%s", expectedMsg)
 	assert.LessOrEqual(t, now.Unix(), logLine.Time.Unix())
 	assert.Equal(t, logLine.Msg, expectedMsg)
 	assert.Equal(t, &expectedErr, logLine.Err)
