@@ -7,16 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       dir: ${{ steps.set-dirs.outputs.dir }}
-      changed: ${{ steps.changed-files.outputs.any_changed }}
+      # We force 'changed' to true if the commit message contains [run-all]
+      changed: ${{ contains(github.event.head_commit.message, '[run-all]') || steps.changed-files.outputs.any_changed }}
     steps:
-      - name: Set up Go
-        uses: actions/setup-go@v6
-        with:
-          go-version: "^1.20"
-          cache-dependency-path: ${{ matrix.dir }}/go.mod
       - uses: actions/checkout@v6
         with:
-          fetch-depth: 2
+          fetch-depth: 0 # Fetch all history to ensure we can find all go.mod files
+
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v47
@@ -24,22 +21,38 @@ jobs:
           dir_names: true
           dir_names_exclude_current_dir: true
           files_ignore: .github/**
-      - name: Determine changed modules
+
+      - name: Determine modules to run
         id: set-dirs
-        # List all repos that contain a go.mod file.
         run: |
-          modules=$(for changed_dir in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo $(cd ./$changed_dir && go list -f '{{.Module.Dir}}' "./...")
-          done | sort -u)
-          echo $modules
-          dir=$(for module in $modules; do
-            rel=${module#"$PWD/"}
-            echo "$rel"
-          done | sort -u | jq -R -s -c 'split("\n")[0:-1]')
+          # Check if the commit message contains [run-all]
+          IF_RUN_ALL="${{ contains(github.event.head_commit.message, '[run-all]') }}"
+          
+          if [ "$IF_RUN_ALL" = "true" ]; then
+            echo "Force running all modules due to [run-all] in commit message"
+            # Find all directories containing a go.mod file
+            modules=$(find . -name "go.mod" -exec dirname {} \;)
+          else
+            # Original logic: only modules with changed files
+            modules=$(for changed_dir in ${{ steps.changed-files.outputs.all_changed_files }}; do
+              # Ensure the directory exists before running go list
+              if [ -d "./$changed_dir" ]; then
+                echo $(cd ./nats-messaging/pkg/messaging && basename $(go list -f '{{.Module.Dir}}' 2>/dev/null))
+              fi
+            done | sort -u)
+          fi
+
+          # Format modules as a JSON array for the matrix
+          # 1. sed: remove leading './'
+          # 2. cut: extract everything before the first '/' (the root folder)
+          # 3. jq: filter out empty strings and ensure unique values
+          dir=$(echo "$modules" | sed 's|^\./||' | cut -d'/' -f1 | jq -R -s -c 'split("\n") | map(select(length > 0)) | unique')
+          
           echo "dir=$dir" >> $GITHUB_OUTPUT
-          echo $dir
+          echo "Selected modules: $dir"
 
   build-modules:
+    # This will now trigger if files changed OR if [run-all] was used
     if: needs.list-modules.outputs.changed == 'true'
     runs-on: ubuntu-latest
     needs: [list-modules]
@@ -47,28 +60,123 @@ jobs:
     strategy:
       max-parallel: 5
       matrix:
-        dir: ${{needs.list-modules.outputs.dir != '' && fromJson(needs.list-modules.outputs.dir)}}
+        dir: ${{ fromJson(needs.list-modules.outputs.dir) }}
     steps:
-      - name: Start lib
-        run: echo Building ${{ matrix.dir }}
       - uses: actions/checkout@v6
       - name: Set up Go
         uses: actions/setup-go@v6
         with:
-          go-version: "^1.20"
+          go-version: "1.24"
           cache-dependency-path: ${{ matrix.dir }}/go.mod
+          # Force a fresh cache if [run-all] is present (optional)
+          cache: ${{ !contains(github.event.head_commit.message, '[run-all]') }}
+
+      - name: Start lib
+        run: echo Building ${{ matrix.dir }}
 
       - name: Build
         run: make all DIR=${{ matrix.dir }}
 
-      - name: Lint
-        uses: golangci/golangci-lint-action@v9
+        # Cache the golangci-lint binary
+      - name: Cache golangci-lint
+        id: cache-lint
+        uses: actions/cache@v4
         with:
-          version: latest
-          working-directory: ${{ matrix.dir }}
-          args: --timeout 5m
-          skip-pkg-cache: true
-          skip-build-cache: true
+          path: ~/go/bin/golangci-lint
+          key: ${{ runner.os }}-golangci-lint
+          
+      - name: Lint install
+        if: steps.cache-lint.outputs.cache-hit != 'true'
+        run: make lint_install
+
+      - name: Lint
+        run: make lint DIR=${{ matrix.dir }} 
 
       - name: Test
-        run: make test DIR=${{ matrix.dir }}
+        if: ${{ github.ref != 'main' }}
+        run: make test DIR=${{ matrix.dir }} 
+      
+      - name: Test and Coverage
+        if: ${{ github.ref == 'main' }}
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIST_PAT }}
+          GIST_ID: ${{ secrets.DYNAMIC_TEST_COVERAGE_GIST_ID }}
+        run: |
+          DIR="${{ matrix.dir }}"
+          ROOT_DIR="$(pwd)"
+  
+          # Function to process a single module's coverage and badge
+          process_coverage() {
+            local target_dir=$1
+            local coverage_file=$2
+            local label_name=$3
+            local filename=$4
+            echo "target_dir: '$target_dir' , coverage_file: '$coverage_file' , label_name: '$label_name' , filename: '$filename'"
+  
+            cd $target_dir
+
+            # 1. Extract Coverage
+            if [ -f "$coverage_file" ]; then
+
+              local cov=$(go tool cover -func="$coverage_file" | grep total | awk '{print $3}' | tr -dc '0-9.')
+              echo "Coverage for $label_name: $cov%"
+  
+              # 2. Determine Color
+              local color="red"
+              if (( $(echo "$cov >= 90" | bc -l) )); then color="green"
+              elif (( $(echo "$cov >= 70" | bc -l) )); then color="yellow"
+              fi
+  
+              # 3. Update Gist using the Badge Action logic via Curl (or simple JSON post)
+              # Since the Action step can't be looped, we manually create the JSON for the Gist
+              # If you prefer the Action, see the alternative below.
+              echo "{\"schemaVersion\":1,\"label\":\"$label_name\",\"message\":\"$cov%\",\"color\":\"$color\"}" > badge.json
+                
+              # Use GitHub CLI (installed on all runners) to update the gist
+              MAX_RETRIES=3
+              RETRY_COUNT=0
+              SUCCESS=false
+              
+              # Retry Logic
+              until $SUCCESS || [ $RETRY_COUNT -eq $MAX_RETRIES ]; do
+                # Attempt to update the Gist
+                if gh gist edit "$GIST_ID" -a badge.json -f "$filename"; then
+                  echo "Successfully updated Gist for $filename"
+                  SUCCESS=true
+                else
+                  RETRY_COUNT=$((RETRY_COUNT + 1))
+                  echo "Attempt $RETRY_COUNT failed. Retrying in 2 seconds..."
+                  sleep 2
+                fi
+              done
+
+            else
+              echo "Warning: Coverage file $coverage_file not found."
+            fi
+
+            cd $ROOT_DIR
+          }
+  
+          # Run tests with coverage
+          make test_cover DIR=${{ matrix.dir }} 
+
+          if [[ "$DIR" == "scenarios" ]]; then
+            # Loop through all subdirectories in scenarios
+            for sub in scenarios/*/; do
+              sub_name=$(basename "$sub")
+              process_coverage "scenarios/$sub_name" "../../.build/${sub_name}.scenarios.coverage.out" "Module $sub_name" "$sub_name-scenarios-coverage.json"
+            done
+          else
+            # Standard root module
+            process_coverage "$DIR" "../.build/${DIR}.coverage.out" "Module $DIR" "$DIR-coverage.json"
+          fi
+        
+  # this step is needed for GH step validation to verify all build steps succeeded
+  build-success:
+    runs-on: ubuntu-latest
+    needs: [build-modules]
+    continue-on-error: false
+    steps:
+      - name: Success
+        run: echo ok

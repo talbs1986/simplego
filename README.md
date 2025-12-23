@@ -16,15 +16,16 @@ the developer with the basic functionalities
 and will be extended by each simplego module 
  
 ### Scenarios
-#### job [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/job-app-coverage.json)](img.shields.io)
+#### job [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/job-app-scenarios-coverage.json)](img.shields.io)
 a scenario of a job that starts by initializing metrics pusher stops after the executed code
 
-#### service [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/service-app-coverage.json)](img.shields.io)
+#### service [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/service-app-scenarios-coverage.json)](img.shields.io)
 a scenario of a service that starts by initializing a server which will log, observe and handle incoming requests
 the scenario will stop at sigterm
 
-#### consumer [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/messaging-consumer-coverage.json)](img.shields.io)
-TBD
+#### consumer [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/messaging-consumer-scenarios-coverage.json)](img.shields.io)
+a scenario of a service that starts by initializing a server for health and a messaging consumer
+the scenario will stop at sigterm
 
 ### Logger
 The [logger module](app/pkg/logger) is a simple asbstraction of a logger interface.
@@ -60,11 +61,13 @@ TBD
 ### Cache
 TBD
 
-### Publisher
-TBD
-
-### Consumer
-TBD
+### Messaging
+The [messaging module](messaging) is a simple lib to provide a message publisher and consumer
+The module aims to provide simple api and models to publish and consume messages by different impls
+#### impls
+* [NATS](nats-messaging) [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/nats-messaging-coverage.json)](img.shields.io)
+* [Kafka (TBD)](kafka-messaging)
+* [TestKit](testkit-messaging) [![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/talbs1986/b965d648d922997049a394573336c8ab/raw/testkit-messaging-coverage.json)](img.shields.io)
 
 ## roadmap
 The current forseeable roadmap for the project 
@@ -84,10 +87,11 @@ The current forseeable roadmap for the project
 - [x] default server implementation - chi
 - [x] server testkit module
 - [x] application start / stop scenarios - service
-- [ ] publisher / consumer modules
-- [ ] default publisher / consumer implemenatation - nats
-- [ ] publisher / consimer testkit modules
-- [ ] application start / stop scenarios - publisher / consumer
+- [x] publisher / consumer modules
+- [x] default publisher / consumer implemenatation - nats
+- [x] publisher / consimer testkit modules
+- [x] application start / stop scenarios - consumer
+- [ ] publisher / consumer kafka impls
 - [ ] cache module
 - [ ] default cache implementation - redis
 - [ ] cache testkit module
@@ -96,6 +100,7 @@ The current forseeable roadmap for the project
 - [ ] default trace implementation - jager
 - [ ] trace testkit module
 - [ ] application start / stop sequences support trace
+
 
 ## wishlist
 - [ ] dynamic config object update - vault impl

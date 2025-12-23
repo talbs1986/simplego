@@ -16,9 +16,7 @@ import (
 type MyConfig struct{}
 
 func main() {
-	scenarios.StartService[MyConfig](
-		&scenarios.ServiceConfig[MyConfig]{},
-		proc)
+	scenarios.StartService[MyConfig](proc)
 }
 
 func proc(appObj *app.App) error {

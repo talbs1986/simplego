@@ -1,25 +1,25 @@
-DIRS = $(sort $(dir $(wildcard ./*/)))
+DIRS = $(shell ls -d */ | sed 's|/||g')
+
+list_dirs:
+	@echo $(DIRS)
 
 all: deps build tidy
 
 dep: 
-	cd ${DIR} && go get -d ${MODULE}
+	cd ${DIR} && go get ${MODULE}
 
 deps:
-	cd ${DIR} && go get -v -t -d ./...
+	cd ${DIR} && go get -v -t ./...
 
 build:
 	make clean ; \
 	cd $(DIR) ; \
-	tmp=$(DIR) ; \
-	out=$(DIR:./%/=%) ; \
-	go build -v -o ../../.build/"$$out" cmd/main.go ; \
+	go build -v -o ../../.build/"$$DIR" cmd/main.go ; \
 	cd ..
 
 clean:
-	tmp="$(DIR)" ; \
-	out=$(tmp:./%/=%) ; \
-	if [ -f "$$out" ] ; then rm ../../.build/"$$out" ; fi 
+	if [ -f "../.build/$${DIR}" ] ; then echo deleting ".build/$${DIR}.coverage.out" ; rm ../.build/"$$DIR" ; fi ; \
+	if [ -f "../.build/$${DIR}.scenarios.coverage.out" ] ; then echo deleting ".build/$${DIR}.scenarios.coverage.out" ; rm ../.build/"$${DIR}.scenarios.coverage.out" ; fi 
 
 tidy:
 	cd $(DIR) && go mod tidy
@@ -27,8 +27,13 @@ tidy:
 test:
 	cd $(DIR) && go test -v ./... -count=1
 
+test_cover:
+	cd $(DIR) && go test -covermode=count -coverprofile=../../.build/$${DIR}.scenarios.coverage.out -v ./... -count=1
+
+lint_install:
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
+
 lint:
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	cd $(DIR) && golangci-lint run
 
 lint_fix:
@@ -48,12 +53,25 @@ test_all:
 		fi \
 	done
 
-lint_fix_all:
+test_cover_all:
 	for currDir in $(DIRS) ; do \
-		if [ "$$currDir" != "./" ] ; then \
-    		make lint_fix DIR=$$currDir ; \
-		fi \
+    	make test_cover DIR=$$currDir ; \
 	done
 
-.PHONY: all deps build tidy lint dev_all test_all dep lint_fix_all lint_fix clean
+lint_all:
+	for currDir in $(DIRS) ; do \
+    	make lint DIR=$$currDir ; \
+	done
+
+lint_fix_all:
+	for currDir in $(DIRS) ; do \
+    	make lint_fix DIR=$$currDir ; \
+	done
+
+clean_all:
+	for currDir in $(DIRS) ; do \
+    	make clean DIR=$$currDir ; \
+	done
+
+.PHONY: all deps build tidy lint dev_all test_all dep lint_all lint_fix_all lint_fix clean test_cover test_cover_all clean_all list_dirs
 
