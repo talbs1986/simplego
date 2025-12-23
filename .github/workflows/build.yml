@@ -93,11 +93,11 @@ jobs:
         run: make lint DIR=${{ matrix.dir }} 
 
       - name: Test
-        if: ${{ github.ref != 'main' }}
+        if: ${{ github.ref != 'refs/heads/main' }}
         run: make test DIR=${{ matrix.dir }} 
       
       - name: Test and Coverage
-        if: ${{ github.ref == 'main' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GIST_PAT }}
