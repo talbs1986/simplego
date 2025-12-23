@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"fmt"
 	"time"
 
 	simplego "github.com/talbs1986/simplego/app/pkg/logger"
@@ -36,29 +37,33 @@ func (l *TestkitLog) WithErr(err error) simplego.LogLine {
 	l.Err = &err
 	return l
 }
-func (l *TestkitLog) Trace(msg string) {
-	l.checkErrAndLogMsg(simplego.LogLevelTrace, l.Err, msg)
+func (l *TestkitLog) Trace(msg string, args ...any) {
+	l.checkErrAndLogMsg(simplego.LogLevelTrace, l.Err, msg, args)
 }
-func (l *TestkitLog) Debug(msg string) {
-	l.checkErrAndLogMsg(simplego.LogLevelDebug, l.Err, msg)
+func (l *TestkitLog) Debug(msg string, args ...any) {
+	l.checkErrAndLogMsg(simplego.LogLevelDebug, l.Err, msg, args)
 }
-func (l *TestkitLog) Info(msg string) {
-	l.checkErrAndLogMsg(simplego.LogLevelInfo, l.Err, msg)
+func (l *TestkitLog) Info(msg string, args ...any) {
+	l.checkErrAndLogMsg(simplego.LogLevelInfo, l.Err, msg, args)
 }
-func (l *TestkitLog) Warn(err error, msg string) {
-	l.checkErrAndLogMsg(simplego.LogLevelWarn, &err, msg)
+func (l *TestkitLog) Warn(err error, msg string, args ...any) {
+	l.checkErrAndLogMsg(simplego.LogLevelWarn, &err, msg, args)
 }
-func (l *TestkitLog) Error(err error, msg string) {
-	l.checkErrAndLogMsg(simplego.LogLevelError, &err, msg)
+func (l *TestkitLog) Error(err error, msg string, args ...any) {
+	l.checkErrAndLogMsg(simplego.LogLevelError, &err, msg, args)
 }
-func (l *TestkitLog) Fatal(err error, msg string) {
-	l.checkErrAndLogMsg(simplego.LogLevelFatal, &err, msg)
+func (l *TestkitLog) Fatal(err error, msg string, args ...any) {
+	l.checkErrAndLogMsg(simplego.LogLevelFatal, &err, msg, args)
 }
 
-func (l *TestkitLog) checkErrAndLogMsg(lvl simplego.LogLevel, err *error, msg string) {
+func (l *TestkitLog) checkErrAndLogMsg(lvl simplego.LogLevel, err *error, msg string, args ...any) {
 	now := time.Now()
 	l.Time = &now
 	l.Lvl = lvl
-	l.Msg = msg
+	if len(args) > 0 {
+		l.Msg = fmt.Sprintf(msg, args...)
+	} else {
+		l.Msg = msg
+	}
 	l.Err = err
 }

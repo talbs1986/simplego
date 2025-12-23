@@ -65,34 +65,46 @@ func (l *fmtLogLine) WithErr(err error) LogLine {
 }
 
 // Trace writes a trace log line
-func (l *fmtLogLine) Trace(msg string) {
+func (l *fmtLogLine) Trace(msg string, args ...any) {
 	if l.skipLvl(LogLevelTrace) {
 		return
 	}
-	imsg := fmt.Sprintf("[Trace] {%v}: %s", l.fields, msg)
+	actualMsg := msg
+	if len(args) > 0 {
+		actualMsg = fmt.Sprintf(msg, args...)
+	}
+	imsg := fmt.Sprintf("[Trace] {%v}: %s", l.fields, actualMsg)
 	fmt.Fprintln(os.Stdout, imsg)
 }
 
 // //Debug writes a debug log line
-func (l *fmtLogLine) Debug(msg string) {
+func (l *fmtLogLine) Debug(msg string, args ...any) {
 	if l.skipLvl(LogLevelDebug) {
 		return
 	}
-	imsg := fmt.Sprintf("[Debug] {%v}: %s", l.fields, msg)
+	actualMsg := msg
+	if len(args) > 0 {
+		actualMsg = fmt.Sprintf(msg, args...)
+	}
+	imsg := fmt.Sprintf("[Debug] {%v}: %s", l.fields, actualMsg)
 	fmt.Fprintln(os.Stdout, imsg)
 }
 
 // Info writes an info log line
-func (l *fmtLogLine) Info(msg string) {
+func (l *fmtLogLine) Info(msg string, args ...any) {
 	if l.skipLvl(LogLevelInfo) {
 		return
 	}
-	imsg := fmt.Sprintf("[Info] {%v}: %s", l.fields, msg)
+	actualMsg := msg
+	if len(args) > 0 {
+		actualMsg = fmt.Sprintf(msg, args...)
+	}
+	imsg := fmt.Sprintf("[Info] {%v}: %s", l.fields, actualMsg)
 	fmt.Fprintln(os.Stdout, imsg)
 }
 
 // Warn writes a warning log line
-func (l *fmtLogLine) Warn(err error, msg string) {
+func (l *fmtLogLine) Warn(err error, msg string, args ...any) {
 	if l.skipLvl(LogLevelWarn) {
 		return
 	}
@@ -100,12 +112,16 @@ func (l *fmtLogLine) Warn(err error, msg string) {
 	if l.err != nil {
 		actualErr = fmt.Errorf("%s , with err: %s", err, l.err)
 	}
-	imsg := fmt.Sprintf("[Warn] {%v}: %s, due to: %s", l.fields, msg, actualErr)
+	actualMsg := msg
+	if len(args) > 0 {
+		actualMsg = fmt.Sprintf(msg, args...)
+	}
+	imsg := fmt.Sprintf("[Warn] {%v}: %s, due to: %s", l.fields, actualMsg, actualErr)
 	fmt.Fprintln(os.Stdout, imsg)
 }
 
 // Error writes an error log line
-func (l *fmtLogLine) Error(err error, msg string) {
+func (l *fmtLogLine) Error(err error, msg string, args ...any) {
 	if l.skipLvl(LogLevelError) {
 		return
 	}
@@ -113,17 +129,25 @@ func (l *fmtLogLine) Error(err error, msg string) {
 	if l.err != nil {
 		actualErr = fmt.Errorf("%s , with err: %s", err, l.err)
 	}
-	imsg := fmt.Sprintf("[Error] {%v}: %s, due to: %v", l.fields, msg, actualErr)
+	actualMsg := msg
+	if len(args) > 0 {
+		actualMsg = fmt.Sprintf(msg, args...)
+	}
+	imsg := fmt.Sprintf("[Error] {%v}: %s, due to: %v", l.fields, actualMsg, actualErr)
 	fmt.Fprintln(os.Stderr, imsg)
 }
 
 // Fatal writes a fatal log line
-func (l *fmtLogLine) Fatal(err error, msg string) {
+func (l *fmtLogLine) Fatal(err error, msg string, args ...any) {
 	var actualErr = err
 	if l.err != nil {
 		actualErr = fmt.Errorf("%s , with err: %s", err, l.err)
 	}
-	imsg := fmt.Sprintf("[Fatal] {%v}: %s, due to: %s", l.fields, msg, actualErr)
+	actualMsg := msg
+	if len(args) > 0 {
+		actualMsg = fmt.Sprintf(msg, args...)
+	}
+	imsg := fmt.Sprintf("[Fatal] {%v}: %s, due to: %s", l.fields, actualMsg, actualErr)
 	fmt.Fprintln(os.Stderr, imsg)
 	panic(imsg)
 }
