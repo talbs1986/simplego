@@ -3,6 +3,7 @@ package scenarios
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/talbs1986/simplego/app/pkg/app"
 	"github.com/talbs1986/simplego/chi-server/pkg/server"
@@ -15,15 +16,19 @@ import (
 	"github.com/talbs1986/simplego/zerolog-logger/pkg/logger"
 )
 
+const (
+	parseConfigTimeout = time.Second * 30
+)
+
 type ExecutionFunc func(*app.App) error
 
-func StartService[T interface{}](cfg *ServiceConfig[T], f ExecutionFunc) {
+func StartService[T interface{}](f ExecutionFunc) {
 	// parsing config from env
 	cfgParser, err := configs.NewGoEnvConfigParser[ServiceConfig[T]]()
 	if err != nil {
 		panic(fmt.Errorf("simplego service: failed to init config parser, due to: %w", err))
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), cfg.ServiceCloseTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), parseConfigTimeout)
 	parsedEnvConfig, err := cfgParser.Parse(ctx)
 	if err != nil {
 		panic(fmt.Errorf("simplego service: failed to parse env config, due to: %w", err))
@@ -60,7 +65,7 @@ func StartService[T interface{}](cfg *ServiceConfig[T], f ExecutionFunc) {
 	}
 	appObj.Logger.Log().Info("simplego service: app started")
 
-	// register routes
+	// run user code
 	if err := f(appObj); err != nil {
 		appObj.Logger.Log().Error(err, "simplego service: finished running with error")
 	} else {

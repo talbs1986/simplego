@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/talbs1986/simplego/app/pkg/app"
+	simplego_config "github.com/talbs1986/simplego/configs/pkg/app"
 	simplego_messaging_app "github.com/talbs1986/simplego/messaging/pkg/app"
 	simplego_messaging "github.com/talbs1986/simplego/messaging/pkg/messaging"
 	"github.com/talbs1986/simplego/nats-messaging/pkg/messaging"
@@ -11,16 +12,30 @@ import (
 )
 
 type ExecutionFunc func(*app.App) error
+type MsgHandlersBuilderFunc func(*app.App) ([]MsgHandler, error)
+type MsgHandler struct {
+	Proc  simplego_messaging.MsgProcessor
+	Topic string
+}
 
-func StartConsumer[T interface{}](cfg *ConsumerConfig[T], f ExecutionFunc, msgHandlers map[string]simplego_messaging.MsgProcessor) {
-	var consumeFunc scenario_server.ExecutionFunc = func(a *app.App) error {
-		// init consumers
+func StartConsumer[T interface{}](f ExecutionFunc, msgHandlersBuilder MsgHandlersBuilderFunc) {
+	var consumeFunc scenario_server.ExecutionFunc = func(appObj *app.App) error {
+
+		cfg, err := simplego_config.GetConfig[ConsumerConfig[T]](appObj)
+		if err != nil {
+			return err
+		}
 		consumerNameBuilder := func(topic string) string {
 			return fmt.Sprintf("%s-%s", cfg.AppConfig.Name, topic)
 		}
 
-		for topic := range msgHandlers {
-			consumerService, err := messaging.NewNATSConsumer(a.Logger, &messaging.NATSConsumerConfig{
+		msgHandlers, err := msgHandlersBuilder(appObj)
+		if err != nil {
+			return fmt.Errorf("simplego consumer: failed to build msg handlers, due to: %w", err)
+		}
+
+		for _, msgHandler := range msgHandlers {
+			consumerService, err := messaging.NewNATSConsumer(appObj.Logger, &messaging.NATSConsumerConfig{
 				ServiceName:         cfg.AppConfig.Name,
 				NATSClusterHost:     cfg.ConsumerConfig.Host,
 				NATSClusterPassword: cfg.ConsumerConfig.Password,
@@ -28,7 +43,7 @@ func StartConsumer[T interface{}](cfg *ConsumerConfig[T], f ExecutionFunc, msgHa
 				MaxPendingMsgs:      cfg.ConsumerConfig.MaxPendingMsgs,
 				Destination:         fmt.Sprintf("%s-queue", cfg.AppConfig.Name),
 				NATSStreamConfig: &messaging.NATSStreamConfig{
-					Name:               topic,
+					Name:               msgHandler.Topic,
 					AllowedSubjects:    []string{"*"},
 					RetentionMaxMsgAge: messaging.DefaultNATSStreamMsgRetention,
 					DeduplicateWindow:  messaging.DefaultNATSStreamDeduplicateWindow,
@@ -37,20 +52,25 @@ func StartConsumer[T interface{}](cfg *ConsumerConfig[T], f ExecutionFunc, msgHa
 				},
 			})
 			if err != nil {
-				panic(fmt.Errorf("simplego consumer: failed to init consumer, due to: %w", err))
+				return fmt.Errorf("simplego consumer: failed to init consumer, due to: %w", err)
 			}
-			simplego_messaging_app.RegisterConsumer(consumerNameBuilder(topic), a, consumerService)
+			simplego_messaging_app.RegisterConsumer(consumerNameBuilder(msgHandler.Topic), appObj, consumerService)
+
+			err = consumerService.Consume(msgHandler.Topic, msgHandler.Proc)
+			if err != nil {
+				return fmt.Errorf("simplego consumer: failed to start consumer, due to: %w", err)
+			}
 		}
 
 		// Execute user code
-		err := f(a)
+		err = f(appObj)
 		if err != nil {
-			a.Logger.Log().Error(err, "simplego consumer: finished running with error")
+			appObj.Logger.Log().Error(err, "simplego consumer: finished running with error")
 		} else {
-			a.Logger.Log().Info("simplego consumer: finished running successfully")
+			appObj.Logger.Log().Info("simplego consumer: finished running successfully")
 		}
 		return nil
 	}
 
-	scenario_server.StartService[T](&cfg.ServiceConfig, consumeFunc)
+	scenario_server.StartService[T](consumeFunc)
 }

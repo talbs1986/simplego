@@ -28,6 +28,7 @@ replace github.com/talbs1986/simplego/scenarios/service-app => ../service-app
 
 require (
 	github.com/talbs1986/simplego/app v0.0.0-20240819061751-864645887469
+	github.com/talbs1986/simplego/configs v0.0.0-20240819061703-e4a65cc20bb3
 	github.com/talbs1986/simplego/messaging v0.0.0-20240902094008-cd4645306425
 	github.com/talbs1986/simplego/nats-messaging v0.0.0-20240902094008-cd4645306425
 	github.com/talbs1986/simplego/scenarios/service-app v0.0.0-20240902094008-cd4645306425
@@ -52,7 +53,6 @@ require (
 	github.com/rs/zerolog v1.34.0 // indirect
 	github.com/sethvargo/go-envconfig v1.3.0 // indirect
 	github.com/talbs1986/simplego/chi-server v0.0.0-00010101000000-000000000000 // indirect
-	github.com/talbs1986/simplego/configs v0.0.0-20240819061703-e4a65cc20bb3 // indirect
 	github.com/talbs1986/simplego/goenv-configs v0.0.0-20240819061751-864645887469 // indirect
 	github.com/talbs1986/simplego/metrics v0.0.0-20240820052917-4c1fbac69c95 // indirect
 	github.com/talbs1986/simplego/prom-metrics v0.0.0-20240820052917-4c1fbac69c95 // indirect
